@@ -1,0 +1,323 @@
+﻿<Page x:Class="Contratos_RK.Vista.Pages.ContratosRK.ContratosRK_Inicio"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes" 
+      xmlns:local="clr-namespace:Contratos_RK.Vista.Pages.ContratosRK"
+      mc:Ignorable="d" 
+      d:DesignHeight="720" d:DesignWidth="1200"
+      Title="Configuraciones"
+      TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+     TextElement.FontWeight="Regular"
+     TextElement.FontSize="13"
+     TextOptions.TextFormattingMode="Ideal"
+     TextOptions.TextRenderingMode="Auto"
+     Background="{DynamicResource MaterialDesignPaper}"
+     FontFamily="{DynamicResource MaterialDesignFont}">
+
+    <Border CornerRadius="5" Background="{DynamicResource SecundaryBlueColor}">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="180"/>
+                <RowDefinition Height="200"/>
+                <RowDefinition Height="*"/>
+
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            
+            
+            <materialDesign:Card Padding="10"  
+                  materialDesign:ElevationAssist.Elevation="Dp4"
+                                 Margin="10" 
+                                 Background="{DynamicResource PrimaryBackgroundColor}" 
+                                 Grid.Row="0"
+                                 Grid.ColumnSpan="2">
+                <Grid >
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <StackPanel Orientation="Vertical" 
+                                Grid.Column="0"
+                                Grid.Row="0">
+                        <StackPanel Orientation="Horizontal">
+                            <ComboBox x:Name="combo_TipoContrato"
+                                      SelectionChanged="combo_TipoContrato_SelectionChanged"
+                                materialDesign:HintAssist.Hint="Selecciona un tipo de Contrato:"
+                                      Style="{StaticResource MaterialDesignOutlinedComboBox}"
+                                      Width="250" Margin="5" > 
+                            </ComboBox>
+                            <ComboBox x:Name="combo_TipoFondo"
+                                      SelectionChanged="combo_TipoFondo_SelectionChanged"
+                                      IsEnabled="False"
+                                      materialDesign:HintAssist.Hint="Selecciona un tipo de Fondo:"
+                                      Style="{StaticResource MaterialDesignOutlinedComboBox}"
+                                      Width="250" Margin="5">
+                            </ComboBox>
+                            <ComboBox  x:Name="combo_TipoBOCode"
+                                       SelectionChanged="combo_TipoBOCode_SelectionChanged"
+                                       IsEnabled="False"
+                                       materialDesign:HintAssist.Hint="Selecciona un tipo de BO Code:"
+                                       Style="{StaticResource MaterialDesignOutlinedComboBox}"
+                                       Width="250" Margin="5" >
+
+                            </ComboBox>
+                            <ComboBox x:Name="combo_GoldenParent"
+                                      SelectionChanged="combo_GoldenParent_SelectionChanged"
+                                      IsEnabled="False"
+                                materialDesign:HintAssist.Hint="Selecciona un Golden Parent:"
+                                     Style="{StaticResource MaterialDesignOutlinedComboBox}"
+                                     Width="250" Margin="5"> 
+                            </ComboBox>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal"
+                                    Margin="0 10 0 0">
+                            <Button x:Name="btn_limpiar"
+                                    Margin="5 0 0 0"
+                                    Click="btn_limpiar_Click"
+                                    Background="{DynamicResource MaterialDesignValidationErrorBrush}"
+                                    Content="Limpiar">
+
+                            </Button>
+                            <Button x:Name="btn_Guardar" 
+                                    Margin="5 0 0 0"
+                                    Click="btn_Guardar_Click"
+                                    Background="{DynamicResource PrimaryGreenColor}"
+                                    Content="Guardar">
+                            </Button>
+                            <Button x:Name="btn_EnviarCorreo"
+                                    Margin="5 0 0 0"
+                                    Click="btn_EnviarCorreo_Click"
+                                    Content="Enviar por correo portafolios activos">
+                            </Button>
+                        </StackPanel>
+                    </StackPanel>
+
+                </Grid>
+            </materialDesign:Card>
+            
+
+            <materialDesign:Card Padding="10"  
+                  materialDesign:ElevationAssist.Elevation="Dp4"
+                      Margin="10" 
+                      Background="{DynamicResource PrimaryBackgroundColor}" 
+                      Grid.Row="1">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <StackPanel Grid.Row="0"
+                                VerticalAlignment="Center"
+                                Margin=" 0 0 10 0 "
+                                Grid.Column="0">
+
+                        <TextBox x:Name="txt_numContrato"
+                                MaxWidth="300"
+                                VerticalAlignment="Top"
+                                HorizontalAlignment="Stretch"
+                                materialDesign:HintAssist.Hint="Número de contrato"
+                                AcceptsReturn="True"
+                                IsEnabled="{Binding Path=IsChecked, ElementName=MaterialDesignFilledTextBoxEnabledComboBox}"
+                                Style="{StaticResource MaterialDesignFilledTextBox}"
+                                TextWrapping="Wrap" />
+
+                    </StackPanel>
+                    <StackPanel Grid.Column="1"
+                                Grid.Row="0"
+                                Margin=" 10 0 0 0"
+                                Orientation="Vertical">
+                        <Label Content="Insidencias: 0"/>
+                        <Button
+                            x:Name="btn_Buscar"
+                            Click="btn_Buscar_Click"
+                          Width="auto"
+                          Content="Buscar"
+                          IsEnabled="{Binding DataContext.ControlsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}"
+                          Style="{StaticResource MaterialDesignPaperSecondaryLightButton}"
+                          ToolTip="Resource name: MaterialDesignPaperSecondaryLightButton" />
+                    </StackPanel>
+                    <StackPanel Grid.Row="1" 
+                               VerticalAlignment="Center"
+                                Grid.ColumnSpan="2">
+                        <TextBox 
+                            VerticalAlignment="Top"
+                            x:Name="txt_Denominacion"
+                            HorizontalAlignment="Stretch"
+                            materialDesign:HintAssist.Hint="Denominación"
+                            AcceptsReturn="True"
+                            IsEnabled="{Binding Path=IsChecked, ElementName=MaterialDesignFilledTextBoxEnabledComboBox}"
+                            Style="{StaticResource MaterialDesignFilledTextBox}"
+                            TextWrapping="Wrap" />
+                    </StackPanel>
+                </Grid>
+            </materialDesign:Card>
+
+
+            <materialDesign:Card Padding="10 10 0 10"  
+           materialDesign:ElevationAssist.Elevation="Dp4"
+           Margin="10" 
+           Background="{DynamicResource PrimaryBackgroundColor}" 
+           Grid.Row="2"
+           Grid.Column="0">
+                <Grid >
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                </Grid>
+            </materialDesign:Card>
+
+            <materialDesign:Card Padding="10 10 0 10"  
+                     materialDesign:ElevationAssist.Elevation="Dp4"
+                     Margin="10" 
+                     Background="{DynamicResource PrimaryBackgroundColor}" 
+                     Grid.Row="1"
+                                 Grid.RowSpan="2"
+                     Grid.Column="2">
+                <Grid >
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <!-- Tipo port group -->
+                    <TextBlock
+                        Style="{StaticResource MaterialDesignSubtitle1TextBlock}"
+                        Text="Tipo port group:" Grid.Row="0"
+                        VerticalAlignment="Top"
+                        Margin="0 -10 0 0"/>
+                    <materialDesign:Card Padding="10"  
+                          materialDesign:ElevationAssist.Elevation="Dp4"
+                          Margin="10" 
+                          Background="{DynamicResource MaterialDesignBackground}" 
+                          Grid.Row="0">
+                        <StackPanel Orientation="Vertical" Grid.Column="0" Grid.Row="0">
+                            <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" Height="150">
+                                <ListBox x:Name="list_tipoPortGroup" SelectionMode="Multiple" materialDesign:ListBoxItemAssist.ShowSelection="True">
+                                    <ListBox.ItemTemplate>
+                                        <DataTemplate>
+                                            <CheckBox Content="{Binding}" IsChecked="{Binding IsSelected, RelativeSource={RelativeSource AncestorType=ListBoxItem}}"/>
+                                        </DataTemplate>
+                                    </ListBox.ItemTemplate>
+                                    <!-- Agrega más items aquí -->
+                                </ListBox>
+                            </ScrollViewer>
+                        </StackPanel>
+                    </materialDesign:Card>
+
+                    <!-- Custodio -->
+                    <TextBlock
+                          Style="{StaticResource MaterialDesignSubtitle1TextBlock}"
+                          Text="Custodio:" Grid.Row="1"
+                          VerticalAlignment="Top"
+                          Margin="0 -10 0 0"/>
+                    <materialDesign:Card Padding="10"  
+                            materialDesign:ElevationAssist.Elevation="Dp4"
+                            Margin="10" 
+                            Background="{DynamicResource MaterialDesignBackground}" 
+                            Grid.Row="1">
+                        <StackPanel Orientation="Vertical" Grid.Column="0" Grid.Row="0">
+                            <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" Height="150">
+                                <ListBox x:Name="list_custodio" SelectionMode="Single" materialDesign:ListBoxItemAssist.ShowSelection="True">
+                                    <ListBox.ItemTemplate>
+                                        <DataTemplate>
+                                            <RadioButton Content="{Binding}" GroupName="CustodioGroup" Style="{StaticResource MaterialDesignRadioButton}"/>
+                                        </DataTemplate>
+                                    </ListBox.ItemTemplate>
+                                    <!-- Agrega más items aquí -->
+                                </ListBox>
+                            </ScrollViewer>
+                        </StackPanel>
+                    </materialDesign:Card>
+
+
+                    <materialDesign:Card Padding="5"  
+                                         materialDesign:ElevationAssist.Elevation="Dp4"
+                                         Margin="10" 
+                                         Background="{DynamicResource MaterialDesignBackground}" 
+                                         Grid.Row="0"
+                                         Grid.Column="1"
+                                         Grid.RowSpan="2">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="60"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+
+                            <StackPanel Orientation="Vertical" Grid.Column="0" Grid.Row="0" >
+                                <ComboBox x:Name="Combo_tipoDraf"
+                                    materialDesign:HintAssist.Hint="Selecciona un tipo de Draf"
+                                            Style="{StaticResource MaterialDesignOutlinedComboBox}"
+                                            Width="auto" Margin="0" >
+                                    <ComboBoxItem Content="Crear"/>
+                                    <ComboBoxItem Content="Modificar"/>
+                                </ComboBox>
+                            </StackPanel>
+                            <StackPanel Orientation="Vertical" Grid.Column="0" Grid.Row="1">
+                                <StackPanel Grid.Row="0"
+                                    VerticalAlignment="Center" 
+                                    Grid.Column="0">
+                                    <TextBox 
+                                        x:Name="txt_nombreContratoExternoFondos"
+                                    VerticalAlignment="Top"
+                                    HorizontalAlignment="Stretch"
+                                    materialDesign:HintAssist.Hint="Número de contrato externo (fondos)"
+                                    AcceptsReturn="True"
+                                    IsEnabled="{Binding Path=IsChecked, ElementName=MaterialDesignFilledTextBoxEnabledComboBox}"
+                                    Style="{StaticResource MaterialDesignFilledTextBox}"
+                                    TextWrapping="Wrap" />
+
+                                </StackPanel>
+                                <StackPanel Margin="0 15 0 0"   Orientation="Vertical" Grid.Column="0" Grid.Row="1">
+                                    <StackPanel Grid.Row="0"
+                                    VerticalAlignment="Center" 
+                                    Grid.Column="0">
+                                        <TextBox 
+                                            x:Name="txt_nombreContratoExterno"
+                                    VerticalAlignment="Top"
+                                    HorizontalAlignment="Stretch"
+                                    materialDesign:HintAssist.Hint="Ingresa el número de contrato"
+                                    AcceptsReturn="True"
+                                    IsEnabled="{Binding Path=IsChecked, ElementName=MaterialDesignFilledTextBoxEnabledComboBox}"
+                                    Style="{StaticResource MaterialDesignFilledTextBox}"
+                                    TextWrapping="Wrap" />
+
+                                    </StackPanel>
+                                    <StackPanel Margin="0 15 0 0" Orientation="Vertical" Grid.Column="0" Grid.Row="0">
+                                        <CheckBox x:Name="check_usarPlantilla" Content="Usar plantilla local" IsChecked="True"/>
+                                        <CheckBox x:Name="check_generalCorreor" Content="Generar correo con plantilla" IsChecked="True"/>
+                                    </StackPanel>
+                                    <StackPanel Margin="0 15 0 0">
+                                        <Button x:Name="btn_EnviarArchivoDraf" 
+                                                Background="{DynamicResource PrimaryOrangeColor}"
+                                                Click="btn_EnviarArchivoDraf_Click"
+                                                Content="Enviar al archivo Draf"/>
+                                    </StackPanel>
+                                </StackPanel>
+                            </StackPanel>
+                        </Grid>
+                    </materialDesign:Card>
+                </Grid>
+            </materialDesign:Card>
+        </Grid>
+    </Border>
+
+</Page>

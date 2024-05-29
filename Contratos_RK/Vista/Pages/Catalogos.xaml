@@ -1,0 +1,32 @@
+﻿<Page x:Class="Contratos_RK.Vista.Pages.Catalogos"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:Contratos_RK.Vista.Pages"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="Catalogos">
+
+    <Border CornerRadius="5" Background="{DynamicResource SecundaryBackgroundColor}">
+
+        <TabControl>
+            <TabItem Header="Catálogo contratos">
+                <!-- Contenido para Catálogo contratos -->
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="40"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                </Grid>
+            </TabItem>
+            <TabItem Header="Catálogo tipo de usuario">
+                <!-- Contenido para Catálogo tipo de usuario -->
+            </TabItem>
+            <TabItem Header="Catálogo fuente">
+                <!-- Contenido para Catálogo fuente -->
+            </TabItem>
+        </TabControl>
+        
+    </Border>
+</Page>
