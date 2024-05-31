@@ -213,14 +213,13 @@
                           Background="{DynamicResource MaterialDesignBackground}" 
                           Grid.Row="0">
                         <StackPanel Orientation="Vertical" Grid.Column="0" Grid.Row="0">
-                            <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" Height="150">
+                            <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" Height="auto">
                                 <ListBox x:Name="list_tipoPortGroup" SelectionMode="Multiple" materialDesign:ListBoxItemAssist.ShowSelection="True">
                                     <ListBox.ItemTemplate>
                                         <DataTemplate>
-                                            <CheckBox Content="{Binding}" IsChecked="{Binding IsSelected, RelativeSource={RelativeSource AncestorType=ListBoxItem}}"/>
+                                            <CheckBox Content="{Binding valor}" IsChecked="{Binding IsSelected, RelativeSource={RelativeSource AncestorType=ListBoxItem}}"/>
                                         </DataTemplate>
                                     </ListBox.ItemTemplate>
-                                    <!-- Agrega más items aquí -->
                                 </ListBox>
                             </ScrollViewer>
                         </StackPanel>
@@ -238,14 +237,13 @@
                             Background="{DynamicResource MaterialDesignBackground}" 
                             Grid.Row="1">
                         <StackPanel Orientation="Vertical" Grid.Column="0" Grid.Row="0">
-                            <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" Height="150">
+                            <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" Height="auto">
                                 <ListBox x:Name="list_custodio" SelectionMode="Single" materialDesign:ListBoxItemAssist.ShowSelection="True">
                                     <ListBox.ItemTemplate>
                                         <DataTemplate>
-                                            <RadioButton Content="{Binding}" GroupName="CustodioGroup" Style="{StaticResource MaterialDesignRadioButton}"/>
+                                            <RadioButton Content="{Binding valor}" GroupName="CustodioGroup" Style="{StaticResource MaterialDesignRadioButton}"/>
                                         </DataTemplate>
                                     </ListBox.ItemTemplate>
-                                    <!-- Agrega más items aquí -->
                                 </ListBox>
                             </ScrollViewer>
                         </StackPanel>

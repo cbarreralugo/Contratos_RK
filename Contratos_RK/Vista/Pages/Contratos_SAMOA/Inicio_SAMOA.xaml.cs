@@ -1,14 +1,14 @@
 ﻿using RK_Datos.Datos;
 using RK_Negocio.Modelo;
+using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
 using Contratos_RK.Utilidades;
+using RK_Negocio.Controlador;
+using System.Data;
 
 namespace Contratos_RK.Vista.Pages.Contratos_SAMOA
 {
-    /// <summary>
-    /// Lógica de interacción para Contratos_SAMOA_Inicio.xaml
-    /// </summary>
     public partial class Inicio_SAMOA : Page
     {
         public Inicio_SAMOA()
@@ -34,29 +34,30 @@ namespace Contratos_RK.Vista.Pages.Contratos_SAMOA
             CargarCombo.FillCombo(combo, tipo, filtroId);
         }
 
+     
         private void btn_limpiar_Click(object sender, RoutedEventArgs e)
         {
-
+            // Implementación del evento Click del botón Limpiar
         }
 
         private void btn_Guardar_Click(object sender, RoutedEventArgs e)
         {
-
+            // Implementación del evento Click del botón Guardar
         }
 
         private void btn_EnviarCorreo_Click(object sender, RoutedEventArgs e)
         {
-
+            // Implementación del evento Click del botón Enviar Correo
         }
 
         private void btn_Buscar_Click(object sender, RoutedEventArgs e)
         {
-
+            // Implementación del evento Click del botón Buscar
         }
 
         private void btn_EnviarArchivoDraf_Click(object sender, RoutedEventArgs e)
         {
-
+            // Implementación del evento Click del botón Enviar Archivo Draf
         }
 
         private void combo_TipoContrato_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -99,6 +100,14 @@ namespace Contratos_RK.Vista.Pages.Contratos_SAMOA
             if (combo_TipoBOCode.SelectedItem is CB selectedTipoBo)
             {
                 HabilitarYRecargarCombo(combo_GoldenParent, "TipoGolden", selectedTipoBo.id);
+
+                if (combo_TipoContrato.SelectedItem is CB selectedTipoContrato)
+                {
+                    // Cargar listas PortGroup y Custodio
+                    
+                    CargarLista.CargarListaPortGroupCustodio(list_tipoPortGroup,CargarLista.tipo.checkbox,selectedTipoContrato.id, selectedTipoBo.id);
+                    CargarLista.CargarListaPortGroupCustodio(list_custodio, CargarLista.tipo.radiobuton, selectedTipoContrato.id, selectedTipoBo.id);
+                }
             }
         }
 

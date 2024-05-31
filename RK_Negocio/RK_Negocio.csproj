@@ -44,6 +44,7 @@
     <Compile Include="Controlador\Catalogo_Controlador.cs" />
     <Compile Include="Controlador\Combo_Controlador.cs" />
     <Compile Include="Controlador\Contratos_RK_Controlador.cs" />
+    <Compile Include="Controlador\Lista_Controlador.cs" />
     <Compile Include="Modelo\Combo_Modelo.cs" />
     <Compile Include="Modelo\Contratos_RK_Modelo.cs" />
     <Compile Include="Modelo\Catalogo_Modelo.cs" />

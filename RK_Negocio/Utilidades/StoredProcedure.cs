@@ -17,8 +17,8 @@ namespace RK_Negocio.Utilidades
     {
         public static string sp_ctr_combo = "sp_ctr_combo";
     }
-    public class SP_Contratos_RK
-    { 
-
+    public class SP_Lista
+    {
+        public static string sp_ctr_portgroup_custodio = "sp_ctr_portgroup_custodio";
     }
 }
