@@ -22,26 +22,62 @@ namespace Contratos_RK.Vista.Pages.Contratos_SAMOA
             CargarCombo.FillCombo(combo_TipoContrato, "TipoContrato");
         }
 
+        private void LimpiarCombo(ComboBox combo)
+        {
+            combo.ItemsSource = null;
+            combo.IsEnabled = false;
+        }
+
+        private void HabilitarYRecargarCombo(ComboBox combo, string tipo, int filtroId)
+        {
+            combo.IsEnabled = true;
+            CargarCombo.FillCombo(combo, tipo, filtroId);
+        }
+
+        private void btn_limpiar_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void btn_Guardar_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void btn_EnviarCorreo_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void btn_Buscar_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void btn_EnviarArchivoDraf_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
         private void combo_TipoContrato_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (combo_TipoContrato.SelectedItem is CB selectedTipoContrato)
             {
+                LimpiarCombo(combo_TipoFondo);
+                LimpiarCombo(combo_TipoBOCode);
+                LimpiarCombo(combo_GoldenParent);
+
                 switch (selectedTipoContrato.id)
                 {
                     case 1: // ID para Mandatos
                     case 2: // ID para Clientes en directo
-                        combo_TipoFondo.IsEnabled = false;
-                        combo_TipoBOCode.IsEnabled = true;
-                        combo_GoldenParent.IsEnabled = true;
-                        CargarCombo.FillCombo(combo_TipoBOCode, "TipoBo", selectedTipoContrato.id);
-                        CargarCombo.FillCombo(combo_GoldenParent, "TipoGolden", selectedTipoContrato.id);
+                        HabilitarYRecargarCombo(combo_TipoBOCode, "TipoBo", selectedTipoContrato.id);
+                        HabilitarYRecargarCombo(combo_GoldenParent, "TipoGolden", selectedTipoContrato.id);
                         break;
                     case 3: // ID para Fondos
-                        combo_TipoFondo.IsEnabled = true;
+                        HabilitarYRecargarCombo(combo_TipoFondo, "TipoFondo", selectedTipoContrato.id);
                         combo_TipoBOCode.IsEnabled = false;
-                        combo_GoldenParent.IsEnabled = true;
-                        CargarCombo.FillCombo(combo_TipoFondo, "TipoFondo", selectedTipoContrato.id);
-                        CargarCombo.FillCombo(combo_GoldenParent, "TipoGolden", selectedTipoContrato.id);
+                        HabilitarYRecargarCombo(combo_GoldenParent, "TipoGolden", selectedTipoContrato.id);
                         break;
                     default:
                         break;
@@ -53,44 +89,20 @@ namespace Contratos_RK.Vista.Pages.Contratos_SAMOA
         {
             if (combo_TipoFondo.SelectedItem is CB selectedTipoFondo)
             {
-                CargarCombo.FillCombo(combo_GoldenParent, "TipoGolden", selectedTipoFondo.id);
+                HabilitarYRecargarCombo(combo_GoldenParent, "TipoGolden", selectedTipoFondo.id);
             }
         }
 
         private void combo_TipoBOCode_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (combo_TipoBOCode.SelectedItem is CB selectedTipoBO)
+            LimpiarCombo(combo_GoldenParent);
+            if (combo_TipoBOCode.SelectedItem is CB selectedTipoBo)
             {
-                CargarCombo.FillCombo(combo_GoldenParent, "TipoGolden", selectedTipoBO.id);
+                HabilitarYRecargarCombo(combo_GoldenParent, "TipoGolden", selectedTipoBo.id);
             }
         }
 
         private void combo_GoldenParent_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            // Manejar el evento si es necesario
-        }
-
-        private void btn_limpiar_Click(object sender, RoutedEventArgs e)
-        {
-            // Manejar el evento si es necesario
-        }
-
-        private void btn_Guardar_Click(object sender, RoutedEventArgs e)
-        {
-            // Manejar el evento si es necesario
-        }
-
-        private void btn_EnviarCorreo_Click(object sender, RoutedEventArgs e)
-        {
-            // Manejar el evento si es necesario
-        }
-
-        private void btn_Buscar_Click(object sender, RoutedEventArgs e)
-        {
-            // Manejar el evento si es necesario
-        }
-
-        private void btn_EnviarArchivoDraf_Click(object sender, RoutedEventArgs e)
         {
             // Manejar el evento si es necesario
         }

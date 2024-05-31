@@ -29,6 +29,11 @@ namespace Contratos_RK.Utilidades
                 combo.ItemsSource = lista;
                 combo.DisplayMemberPath = "valor";
                 combo.SelectedValuePath = "id";
+
+                if (lista.Count > 0)
+                {
+                    combo.SelectedIndex = 0; // Selecciona el primer elemento automáticamente
+                }
             }
         }
 
