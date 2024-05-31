@@ -15,6 +15,10 @@ namespace RK_Negocio.Utilidades
     }
     public class SP_Combo
     {
-        public static string sp_ctr_combo ="sp_ctr_combo";
+        public static string sp_ctr_combo = "sp_ctr_combo";
+    }
+    public class SP_Contratos_RK
+    { 
+
     }
 }

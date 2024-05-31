@@ -1,0 +1,46 @@
+﻿<Page x:Class="Contratos_RK.Vista.Pages.Contratos_SAMOA.Configuraciones_SAMOA"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:Contratos_RK.Vista.Pages.Contratos_SAMOA"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="ConfiguracionesRK">
+
+    <Border CornerRadius="5" Background="{DynamicResource SecundaryBackgroundColor}">
+
+        <TabControl>
+            <TabItem Header="Plantilla">
+                <!-- Contenido para Catálogo contratos -->
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="40"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                </Grid>
+            </TabItem>
+            <TabItem Header="Usuarios">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="320"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <StackPanel Orientation="Vertical"
+                                Grid.Column="0">
+                        
+                    </StackPanel>
+                    <StackPanel Grid.Column="1">
+                        <DataGrid
+                            x:Name="dg_Usuario"
+                              CanUserAddRows="False"
+                              ItemsSource="{Binding Items2}"
+                              SelectionMode="Extended"
+                              SelectionUnit="Cell" Height="auto" />
+                    </StackPanel>
+                </Grid>
+            </TabItem> 
+        </TabControl>
+
+    </Border>
+</Page>

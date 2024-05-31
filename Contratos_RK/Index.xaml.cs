@@ -61,17 +61,17 @@ namespace Contratos_RK
             // PagesNavigation.Navigate(new HomePage());
 
             //PagesNavigation.Navigate(new System.Uri("Vista/Pages/Home.xaml", UriKind.RelativeOrAbsolute));
-            PagesNavigation.Navigate(new System.Uri("Vista/Pages/ContratosRK/ContratosRK_Inicio.xaml", UriKind.RelativeOrAbsolute));
+            PagesNavigation.Navigate(new System.Uri("Vista/Pages/Contratos_SAMOA/Inicio_SAMOA.xaml", UriKind.RelativeOrAbsolute));
         }
 
         private void rdSounds_Click(object sender, RoutedEventArgs e)
         {
-            PagesNavigation.Navigate(new System.Uri("Vista/Pages/Catalogos.xaml", UriKind.RelativeOrAbsolute));
+            PagesNavigation.Navigate(new System.Uri("Vista/Pages/Contratos_SAMOA/Catalogos_SAMOA.xaml", UriKind.RelativeOrAbsolute));
         }
 
         private void rdNotes_Click(object sender, RoutedEventArgs e)
         {
-            PagesNavigation.Navigate(new System.Uri("Vista/Pages/Configuraciones.xaml", UriKind.RelativeOrAbsolute));
+            PagesNavigation.Navigate(new System.Uri("Vista/Pages/Contratos_SAMOA/Configuraciones_SAMOA.xaml", UriKind.RelativeOrAbsolute));
         }
 
         

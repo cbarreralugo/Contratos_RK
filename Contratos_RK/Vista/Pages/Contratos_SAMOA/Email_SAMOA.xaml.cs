@@ -13,14 +13,14 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace Contratos_RK.Vista.Pages
+namespace Contratos_RK.Vista.Pages.Contratos_SAMOA
 {
     /// <summary>
-    /// Lógica de interacción para Catalogos.xaml
+    /// Lógica de interacción para EmailRK.xaml
     /// </summary>
-    public partial class Catalogos : Page
+    public partial class Email_SAMOA : Page
     {
-        public Catalogos()
+        public Email_SAMOA()
         {
             InitializeComponent();
         }
