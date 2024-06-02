@@ -35,16 +35,16 @@ namespace RK_Negocio.Controlador
             string[,] parametros =
             {
                 {"@accion",modelo.accion.ToString() },   //'C' para crear, 'M' para modificar, 'T' para obtener todos, 'O' para obtener uno
-                {"@id_sistema",modelo.id_sistema==string.Empty?"":modelo.id_sistema },
-                {"@Plantilla_Draf",modelo.Plantilla_Draft==string.Empty?"":modelo.Plantilla_Draft},//ruta_plantilla
-                {"@Draft_Creado",modelo.Draft_Creado == string.Empty ? "" : modelo.Draft_Creado},//ruta creado
-                {"@Email_To",modelo.Email_To == string.Empty ? "" : modelo.Email_To},
-                {"@Password_To",modelo.Password_To == string.Empty ? "" : modelo.Password_To },
-                {"@image_status",modelo.image_status == string.Empty ? "" : modelo.image_status }
+                {"@id_sistema",modelo.id_sistema==null?"":modelo.id_sistema },
+                {"@Plantilla_Draf",modelo.Plantilla_Draft==null?"":modelo.Plantilla_Draft},//ruta_plantilla
+                {"@Draft_Creado",modelo.Draft_Creado == null ? "" : modelo.Draft_Creado},//ruta creado
+                {"@Email_To",modelo.Email_To == null ? "" : modelo.Email_To},
+                {"@Password_To",modelo.Password_To == null ? "" : modelo.Password_To },
+                {"@image_status",modelo.image_status == null ? "" : modelo.image_status }
             };
             try
             {
-                dt = ConnectorLibrary.App.GetCurrentConnector().Tabla(Utilidades.SP_Catalogos.sp_ctr_crear_obtener_modificar_contratos, parametros);
+                dt = ConnectorLibrary.App.GetCurrentConnector().Tabla(Utilidades.SP_Configuraciones.sp_ctr_obtener_modificar_configuraciones_sistema, parametros);
                 return dt;
             }
             catch (Exception e) { throw e; }

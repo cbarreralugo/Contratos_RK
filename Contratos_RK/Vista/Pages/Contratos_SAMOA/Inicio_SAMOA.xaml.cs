@@ -59,53 +59,64 @@ namespace Contratos_RK.Vista.Pages.Contratos_SAMOA
 
         private void btn_EnviarArchivoDraf_Click(object sender, RoutedEventArgs e)
         {
-            EscribirPlantillaExcel excelHelper = new EscribirPlantillaExcel(); 
+            EscribirPlantillaExcel excelHelper = new EscribirPlantillaExcel();
             try
             {
                 // Crear directorio de salida si no existe
-                string outputDirectoryPath = @"C:/Temp_File/Excel";
+                string outputDirectoryPath = @"" + Configuracion_Modelo.Draft_Creado;
                 if (!Directory.Exists(outputDirectoryPath))
                 {
                     Directory.CreateDirectory(outputDirectoryPath);
                 }
 
                 // Ruta del archivo Excel plantilla
-                string templatePath = @"C:/Temp_File/Contratos/Plantilla/Ejemplo_Plantilla_APP.xlsx"; // Ruta a la plantilla
-                                                                                                      // Ruta del archivo Excel de salida
-                string outputPath = Path.Combine(outputDirectoryPath, "Output_Plantilla_APP.xlsx"); // Ruta para guardar el archivo de salida
+                string templatePath = @"" + Configuracion_Modelo.Plantilla_Draft; // Ruta a la plantilla
+                                                                                  // Ruta del archivo Excel de salida
+                string outputPath = Path.Combine(outputDirectoryPath, @"Plantilla_APP.xlsx"); // Ruta para guardar el archivo de salida
 
                 // Diccionario de valores a reemplazar
                 Dictionary<string, string> model = new Dictionary<string, string>
             {
-                    {"txt_fecha","Create" },
-                    {"txt_tipoCreacion_Modificacion","Create" },
-                    { "txt_userName", "Carlos Alberto" },
-                    { "txt_Fecha", "02/06/2024" },
-                    { "txt_Portafolio", "SAMBPI2" },
-                    { "txt_type_custodio", "[BCOS3MX] Banco S3 Mexico S.A. Institucion de Banca Multiple|1039327|" },
-                    { "txt_type_cuenta", "[BCOS3MX] Banco S3 Mexico S.A. Institucion de Banca Multiple|1039327|MXN" },
-                    { "txt_gp", "GP|INST-AMRS|;GP|MX-AGG|;GP|MX-EQUITY|;GP|MX-ALCAP|" },
-                    { "txt_grupo", "PORT_GRP|MX-FI-FNDS|;PORT_GRP|SAM_B1_6|;PORT_GRP|AQS_AUM_PG|;PORT_GRP|TST-AMRS|" },
-                    { "txt_monto", "PORT_GRP|MX-FI-FNDS|;PORT_GRP|SAM_B1_6|;PORT_GRP|AQS_AUM_PG|;PORT_GRP|TST-AMRS|" },
-                    { "txt_BO_COVAF", "COVAF/MXSAMBPI2/Fondo SAM Renta Variable 29, S.A. de C.V. Fondo de Inversion de Renta Variable/MXN/SAMBPI2/Fondo SAM Renta Variable 29, S.A. de C.V. Fondo de Inversion de Renta Variable/SAMBPI2" },
-                    { "txt_BO_PFOLIOS", "PFOLIOS/MXSAMBPI2/Fondo SAM Renta Variable 29, S.A. de C.V. Fondo de Inversion de Renta Variable/MXN/SAMBPI2/Fondo SAM Renta Variable 29, S.A. de C.V. Fondo de Inversion de Renta Variable/SAMBPI2" }
+                { "txt_fecha", "Create" },
+                { "txt_tipoCreacion_Modificacion", "Create" },
+                { "txt_userName", "Carlos Alberto" },
+                { "txt_Fecha", "02/06/2024" },
+                { "txt_Portafolio", "SAMBPI2" },
+                { "txt_type_custodio", "[BCOS3MX] Banco S3 Mexico S.A. Institucion de Banca Multiple|1039327|" },
+                { "txt_type_cuenta", "[BCOS3MX] Banco S3 Mexico S.A. Institucion de Banca Multiple|1039327|MXN" },
+                { "txt_gp", "GP|INST-AMRS|;GP|MX-AGG|;GP|MX-EQUITY|;GP|MX-ALCAP|" },
+                { "txt_grupo", "PORT_GRP|MX-FI-FNDS|;PORT_GRP|SAM_B1_6|;PORT_GRP|AQS_AUM_PG|;PORT_GRP|TST-AMRS|" },
+                { "txt_monto", "PORT_GRP|MX-FI-FNDS|;PORT_GRP|SAM_B1_6|;PORT_GRP|AQS_AUM_PG|;PORT_GRP|TST-AMRS|" },
+                { "txt_BO_COVAF", "COVAF/MXSAMBPI2/Fondo SAM Renta Variable 29, S.A. de C.V. Fondo de Inversion de Renta Variable/MXN/SAMBPI2/Fondo SAM Renta Variable 29, S.A. de C.V. Fondo de Inversion de Renta Variable/SAMBPI2" },
+                { "txt_BO_PFOLIOS", "PFOLIOS/MXSAMBPI2/Fondo SAM Renta Variable 29, S.A. de C.V. Fondo de Inversion de Renta Variable/MXN/SAMBPI2/Fondo SAM Renta Variable 29, S.A. de C.V. Fondo de Inversion de Renta Variable/SAMBPI2" }
             };
 
                 excelHelper.FillExcelTemplate(templatePath, outputPath, model);
-                sendEmail(model);
+
+                // Actualizar el cuerpo del modelo de email
+                Email_Modelo.Body = model;
+
+                // Enviar el correo
+                sendEmail(outputPath);
             }
-            catch (Exception ex) { MessageBox.Show(ex.Message.ToString());  } 
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message.ToString());
+            }
         }
-         
-        private void sendEmail(Dictionary<string, string> model =null)
+        private void sendEmail(string outputPath)
         {
             Email email = new Email();
-            string to = "carlosalberto.barreralugo1230@hotmail.com";
-            string subject = "Correo de prueba";
+            // Limpiar las listas para evitar duplicados
+            Email_Modelo.Para.Clear();
+            Email_Modelo.Copia.Clear();
+            Email_Modelo.Body.Clear();
+
+            Email_Modelo.Asunto = "Correo de prueba";
             string body = "<p>Este es el cuerpo del correo con <b>HTML</b>.</p>";
             bool attachFile = true; // Cambiar a false si no se quiere adjuntar archivo
-
-            email.SendEmail(to, subject, body, attachFile,model);
+            Email_Modelo.Para.Add(SesionUsuario_Modelo.email);
+            email.SendEmail(Email_Modelo.Asunto, body, attachFile, outputPath:outputPath);
         }
 
         private void combo_TipoContrato_SelectionChanged(object sender, SelectionChangedEventArgs e)

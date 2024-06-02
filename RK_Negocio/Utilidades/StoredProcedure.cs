@@ -6,6 +6,12 @@ using System.Threading.Tasks;
 
 namespace RK_Negocio.Utilidades
 {
+    public static class SP_Sesion
+    {
+        //@usuario
+        //@email
+        public static string sp_reune_obtener_sesion = "sp_ctr_obtener_sesion";
+    }
     public class SP_Configuraciones
     {
         public static string sp_ctr_obtener_modificar_configuraciones_sistema = "sp_ctr_obtener_modificar_configuraciones_sistema";

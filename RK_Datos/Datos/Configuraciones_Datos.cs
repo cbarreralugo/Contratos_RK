@@ -33,10 +33,10 @@ namespace RK_Datos.Datos
                             switch (configuracion)
                             {
                                 case "Plantilla_Draft":
-                                    conf_.Plantilla_Draft = valor;
+                                    conf_.Plantilla_Draft = Configuracion_Modelo.Plantilla_Draft= valor;
                                     break;
                                 case "Draft_Creado":
-                                    conf_.Draft_Creado = valor;
+                                    conf_.Draft_Creado =Configuracion_Modelo.Draft_Creado= valor;
                                     break;
                                 case "Email_To":
                                     conf_.Email_To = Email_Modelo.Email_To = valor;
@@ -45,20 +45,12 @@ namespace RK_Datos.Datos
                                     conf_.Password_To = Email_Modelo.Password_To = valor;
                                     break;
                                 case "image_status":
-                                    conf_.image_status = Email_Modelo.image = valor;
+                                    conf_.image_status = Email_Modelo.Image = valor;
                                     break;
-                                    //case "key":
-                                    //    conf_.key = Configuracion_Modelo.key = decryptedValue;
-                                    //    break;
-                                    //case "mostrar_alertas":
-                                    //    conf_.mostrar_alerts = Configuracion_Modelo.mostrar_alerts = int.Parse(decryptedValue);
-                                    //    break;
-                                    //case "auto_regenerar_token_user":
-                                    //    conf_.auto_regenerar_token_user = Configuracion_Modelo.auto_regenerar_token_user = int.Parse(decryptedValue);
-                                    //    break;
-                                    //case "pre_info":
-                                    //    conf_.pre_info = Configuracion_Modelo.pre_info = (decryptedValue);
-                                    //    break;
+                                case "SesionTemporal":
+                                    conf_.SesionTemporal =Configuracion_Modelo.SesionTemporal= valor;
+                                    break;
+
                             }
                         }
                         catch (FormatException ex)
@@ -115,7 +107,7 @@ namespace RK_Datos.Datos
                             conf_.Password_To = Email_Modelo.Password_To = valor;
                             break;
                         case "image_status":
-                            conf_.image_status = Email_Modelo.image = valor;
+                            conf_.image_status = Email_Modelo.Image = valor;
                             break;
                             //case "key":
                             //    conf_.key = Configuracion_Modelo.key = valor;

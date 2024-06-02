@@ -161,6 +161,10 @@
     <Compile Include="Utilidades\data\plantillaEmail\style.cs" />
     <Compile Include="Utilidades\Email.cs" />
     <Compile Include="Utilidades\EscribirPlantillaExcel.cs" />
+    <Compile Include="Utilidades\SesionTemporal.cs" />
+    <Compile Include="Vista\Login.xaml.cs">
+      <DependentUpon>Login.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Vista\Pages\Contratos_SAMOA\Catalogos_SAMOA.xaml.cs">
       <DependentUpon>Catalogos_SAMOA.xaml</DependentUpon>
     </Compile>
@@ -193,6 +197,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="Vista\Assets\Icons\Icons.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Vista\Login.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -273,6 +281,12 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Utilidades\data\image-2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Vista\Assets\img\cancel.png" />
+    <Resource Include="Vista\Assets\img\check.png" />
+    <Resource Include="Vista\Assets\img\sesion.png" />
+    <Resource Include="Vista\Assets\img\user.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\MaterialDesignThemes.4.8.0\build\MaterialDesignThemes.targets" Condition="Exists('..\packages\MaterialDesignThemes.4.8.0\build\MaterialDesignThemes.targets')" />

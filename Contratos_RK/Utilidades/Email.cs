@@ -3,6 +3,7 @@ using Microsoft.Office.Interop.Excel;
 using RK_Negocio.Modelo;
 using System;
 using System.Collections.Generic;
+using System.IO; // Asegúrate de agregar esta línea
 using System.Net;
 using System.Net.Mail;
 using System.Net.Mime;
@@ -12,28 +13,31 @@ namespace Contratos_RK.Utilidades
 {
     public class Email
     {
-        public void SendEmail(string to, string subject, string body, bool attachFile = false)
+        
+        public void SendEmail(string subject, string body, bool attachFile = false, string outputPath = "")
         {
             try
             {
                 // Verificación de dirección de correo y asunto
-                if (string.IsNullOrEmpty(to) || string.IsNullOrEmpty(subject) || string.IsNullOrEmpty(body))
+                if (Email_Modelo.Para == null || Email_Modelo.Para.Count == 0 || string.IsNullOrEmpty(subject) || string.IsNullOrEmpty(body))
                 {
                     MessageBox.Show("Los campos 'Para', 'Asunto' y 'Cuerpo' no pueden estar vacíos.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
 
                 // Validar dirección de correo electrónico
-                if (!IsValidEmail(to))
+                foreach (var to in Email_Modelo.Para)
                 {
-                    MessageBox.Show("Dirección de correo electrónico no válida.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    return;
+                    if (!IsValidEmail(to))
+                    {
+                        MessageBox.Show($"Dirección de correo electrónico no válida: {to}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return;
+                    }
                 }
 
                 // Configuración del cliente SMTP
                 SmtpClient smtpClient = new SmtpClient("smtp.office365.com")
                 {
-                    //"sam_contratos_prueba@outlook.com", "K10sm4rt"
                     Port = 587,
                     Credentials = new NetworkCredential(Email_Modelo.Email_To, Email_Modelo.Password_To),
                     EnableSsl = true,
@@ -47,7 +51,15 @@ namespace Contratos_RK.Utilidades
                     IsBodyHtml = true
                 };
 
-                mail.To.Add(to);
+                foreach (var to in Email_Modelo.Para)
+                {
+                    mail.To.Add(to);
+                }
+
+                foreach (var cc in Email_Modelo.Copia)
+                {
+                    mail.CC.Add(cc);
+                }
 
                 // Crear el cuerpo del correo usando la plantilla HTML
                 string htmlBody = GetHtmlBody(body, Email_Modelo.Body);
@@ -55,9 +67,9 @@ namespace Contratos_RK.Utilidades
                 // Crear la vista alternativa HTML
                 AlternateView avHtml = AlternateView.CreateAlternateViewFromString(htmlBody, null, MediaTypeNames.Text.Html);
 
-                string nameImage =Email_Modelo.image == "true"? "image-1.png": "image-2.png";
-                // Adjuntar la imagen image-1.png
-                string imagePath = AppDomain.CurrentDomain.BaseDirectory + "data/"+nameImage;
+                // Adjuntar la imagen
+                string nameImage = Email_Modelo.Image == "true" ? "image-1.png" : "image-2.png";
+                string imagePath = AppDomain.CurrentDomain.BaseDirectory + "data/" + nameImage;
                 LinkedResource inline = new LinkedResource(imagePath, MediaTypeNames.Image.Jpeg)
                 {
                     ContentId = "InlineImage"
@@ -70,16 +82,24 @@ namespace Contratos_RK.Utilidades
                 // Adjuntar archivos si la bandera es verdadera
                 if (attachFile)
                 {
-                    OpenFileDialog openFileDialog = new OpenFileDialog
+                    if (string.IsNullOrEmpty(outputPath))
                     {
-                        Filter = "Excel Files|*.xls;*.xlsx",
-                        Title = "Select an Excel File"
-                    };
+                        OpenFileDialog openFileDialog = new OpenFileDialog
+                        {
+                            Filter = "Excel Files|*.xls;*.xlsx",
+                            Title = "Select an Excel File"
+                        };
 
-                    if (openFileDialog.ShowDialog() == DialogResult.OK)
+                        if (openFileDialog.ShowDialog() == DialogResult.OK)
+                        {
+                            string filePath = openFileDialog.FileName;
+                            Attachment attachment = new Attachment(filePath);
+                            mail.Attachments.Add(attachment);
+                        }
+                    }
+                    else
                     {
-                        string filePath = openFileDialog.FileName;
-                        Attachment attachment = new Attachment(filePath);
+                        Attachment attachment = new Attachment(outputPath);
                         mail.Attachments.Add(attachment);
                     }
                 }
@@ -123,13 +143,16 @@ namespace Contratos_RK.Utilidades
                 Console.WriteLine("Body content before formatting: " + body);
 
                 // Plantilla HTML para el cuerpo del correo
-                string htmlTemplate = html.body;
+                string htmlTemplate = body;
 
-                foreach (var item in model)
+                if (model != null)
                 {
-                    if (htmlTemplate.Contains(item.Key))
+                    foreach (var item in model)
                     {
-                        htmlTemplate = htmlTemplate.Replace(item.Key, item.Value);
+                        if (htmlTemplate.Contains(item.Key))
+                        {
+                            htmlTemplate = htmlTemplate.Replace(item.Key, item.Value);
+                        }
                     }
                 }
                 return htmlTemplate;
