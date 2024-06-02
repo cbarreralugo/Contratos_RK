@@ -156,6 +156,9 @@
     </Compile>
     <Compile Include="Utilidades\CargarCombo.cs" />
     <Compile Include="Utilidades\CargarLista.cs" />
+    <Compile Include="Utilidades\data\plantillaEmail\html.cs" />
+    <Compile Include="Utilidades\data\plantillaEmail\model.cs" />
+    <Compile Include="Utilidades\data\plantillaEmail\style.cs" />
     <Compile Include="Utilidades\Email.cs" />
     <Compile Include="Utilidades\EscribirPlantillaExcel.cs" />
     <Compile Include="Vista\Pages\Contratos_SAMOA\Catalogos_SAMOA.xaml.cs">
@@ -267,6 +270,9 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Utilidades\data\image-1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Utilidades\data\image-2.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\MaterialDesignThemes.4.8.0\build\MaterialDesignThemes.targets" Condition="Exists('..\packages\MaterialDesignThemes.4.8.0\build\MaterialDesignThemes.targets')" />

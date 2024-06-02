@@ -59,16 +59,7 @@ namespace Contratos_RK.Vista.Pages.Contratos_SAMOA
 
         private void btn_EnviarArchivoDraf_Click(object sender, RoutedEventArgs e)
         {
-            if (generarPlantilla() == true)
-            {
-                sendEmail();
-            }
-        }
-
-        private bool generarPlantilla()
-        {
-            EscribirPlantillaExcel excelHelper = new EscribirPlantillaExcel();
-            bool reply = false;
+            EscribirPlantillaExcel excelHelper = new EscribirPlantillaExcel(); 
             try
             {
                 // Crear directorio de salida si no existe
@@ -86,6 +77,7 @@ namespace Contratos_RK.Vista.Pages.Contratos_SAMOA
                 // Diccionario de valores a reemplazar
                 Dictionary<string, string> model = new Dictionary<string, string>
             {
+                    {"txt_fecha","Create" },
                     {"txt_tipoCreacion_Modificacion","Create" },
                     { "txt_userName", "Carlos Alberto" },
                     { "txt_Fecha", "02/06/2024" },
@@ -100,13 +92,12 @@ namespace Contratos_RK.Vista.Pages.Contratos_SAMOA
             };
 
                 excelHelper.FillExcelTemplate(templatePath, outputPath, model);
-                reply = true;
+                sendEmail(model);
             }
-            catch (Exception ex) { MessageBox.Show(ex.Message.ToString()); reply = false; }
-            return reply;
+            catch (Exception ex) { MessageBox.Show(ex.Message.ToString());  } 
         }
-
-        private void sendEmail()
+         
+        private void sendEmail(Dictionary<string, string> model =null)
         {
             Email email = new Email();
             string to = "carlosalberto.barreralugo1230@hotmail.com";
@@ -114,7 +105,7 @@ namespace Contratos_RK.Vista.Pages.Contratos_SAMOA
             string body = "<p>Este es el cuerpo del correo con <b>HTML</b>.</p>";
             bool attachFile = true; // Cambiar a false si no se quiere adjuntar archivo
 
-            email.SendEmail(to, subject, body, attachFile);
+            email.SendEmail(to, subject, body, attachFile,model);
         }
 
         private void combo_TipoContrato_SelectionChanged(object sender, SelectionChangedEventArgs e)

@@ -6,6 +6,10 @@ using System.Threading.Tasks;
 
 namespace RK_Negocio.Utilidades
 {
+    public class SP_Configuraciones
+    {
+        public static string sp_ctr_obtener_modificar_configuraciones_sistema = "sp_ctr_obtener_modificar_configuraciones_sistema";
+    }
     public class SP_Catalogos
     {
         public static string sp_ctr_crear_obtener_modificar_contratos = "sp_ctr_crear_obtener_modificar_contratos";

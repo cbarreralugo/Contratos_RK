@@ -15,5 +15,6 @@ namespace RK_Negocio.Modelo
         public int id_tipo_cliente { get; set; }
         public string accion { get; set; }
         public string id_fuente {  get; set; }  
+
     }
 }
