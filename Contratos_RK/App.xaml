@@ -2,8 +2,22 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:local="clr-namespace:Contratos_RK"
-             StartupUri="MainWindow.xaml">
+             StartupUri="Vista/Login.xaml">
     <Application.Resources>
-         
+        <ResourceDictionary>
+            
+            <ResourceDictionary.MergedDictionaries>
+                <!--Personalizados-->
+                <ResourceDictionary Source="Vista/Themes/LightTheme.xaml"/>
+                <ResourceDictionary Source="Vista/Assets/Icons/Icons.xaml"/>
+                <ResourceDictionary Source="Vista/Styles/MainStyle.xaml"/>
+                <!--Material Design-->
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Light.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Defaults.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignColors;component/Themes/Recommended/Primary/MaterialDesignColor.Indigo.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignColors;component/Themes/Recommended/Accent/MaterialDesignColor.Pink.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            
+        </ResourceDictionary>
     </Application.Resources>
 </Application>
