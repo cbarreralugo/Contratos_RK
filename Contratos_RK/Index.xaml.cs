@@ -32,6 +32,7 @@ namespace Contratos_RK
         {
             txtEmail.Content = SesionUsuario_Modelo.email;
             txtTipoUsuario.Content = SesionUsuario_Modelo.id_tipoUser == 1 ? "Administrador" : "Operador";
+            rdHome_Click(null, null);
         }
 
         private void Window_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)

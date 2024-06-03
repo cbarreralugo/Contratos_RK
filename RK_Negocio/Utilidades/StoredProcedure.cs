@@ -8,6 +8,13 @@ namespace RK_Negocio.Utilidades
 {
     public class SP_RK
     {
+        public static string sp_ctr_obtener_configuraciones_sistema = "sp_ctr_obtener_configuraciones_sistema";
+        public static string sp_ctr_obtener_usuarios = "sp_ctr_obtener_usuarios";
+        public static string sp_ctr_obtener_port_group = "sp_ctr_obtener_port_group";
+        public static string sp_ctr_obtener_custodio = "sp_ctr_obtener_custodio";
+        public static string sp_ctr_obtener_portafolio_activo_samoa = "sp_ctr_obtener_portafolio_activo_samoa";
+        public static string sp_ctr_obtener_tipo_golden_parent = "sp_ctr_obtener_tipo_golden_parent";
+        public static string sp_ctr_obtener_tipo_bo = "sp_ctr_obtener_tipo_bo";
         public static string sp_guardar_contrato = "sp_guardar_contrato";
         public static string sp_buscar_contrato = "sp_buscar_contrato";
     }

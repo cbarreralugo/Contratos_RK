@@ -129,5 +129,104 @@ namespace RK_Negocio.Controlador
             }
             return data;
         }
+
+        public DataTable ObtenerPortafolioActivo()
+        {
+            DataTable data = new DataTable();
+            try
+            {
+                 
+                data = ConnectorLibrary.App.GetCurrentConnector().Tabla(Utilidades.SP_RK.sp_ctr_obtener_portafolio_activo_samoa);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            return data;
+        }
+        public DataTable ObtenerBO()
+        {
+            DataTable data = new DataTable();
+            try
+            {
+
+                data = ConnectorLibrary.App.GetCurrentConnector().Tabla(Utilidades.SP_RK.sp_ctr_obtener_tipo_bo);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            return data;
+        }
+        public DataTable ObtenerGOlden()
+        {
+            DataTable data = new DataTable();
+            try
+            {
+
+                data = ConnectorLibrary.App.GetCurrentConnector().Tabla(Utilidades.SP_RK.sp_ctr_obtener_tipo_golden_parent);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            return data;
+        }
+        public DataTable ObtenerPuerto()
+        {
+            DataTable data = new DataTable();
+            try
+            {
+
+                data = ConnectorLibrary.App.GetCurrentConnector().Tabla(Utilidades.SP_RK.sp_ctr_obtener_port_group);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            return data;
+        }
+        public DataTable ObtenerCustodio()
+        {
+            DataTable data = new DataTable();
+            try
+            {
+
+                data = ConnectorLibrary.App.GetCurrentConnector().Tabla(Utilidades.SP_RK.sp_ctr_obtener_custodio);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            return data;
+        }
+        public DataTable ObtenerUsuarios()
+        {
+            DataTable data = new DataTable();
+            try
+            {
+
+                data = ConnectorLibrary.App.GetCurrentConnector().Tabla(Utilidades.SP_RK.sp_ctr_obtener_usuarios);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            return data;
+        }
+        public DataTable ObtenerConfiguracion()
+        {
+            DataTable data = new DataTable();
+            try
+            {
+
+                data = ConnectorLibrary.App.GetCurrentConnector().Tabla(Utilidades.SP_RK.sp_ctr_obtener_configuraciones_sistema);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            return data;
+        }
     }
 }

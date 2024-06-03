@@ -1,4 +1,5 @@
-﻿using System;
+﻿using RK_Negocio.Controlador;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -23,6 +24,15 @@ namespace Contratos_RK.Vista.Pages.Contratos_SAMOA
         public Configuraciones_SAMOA()
         {
             InitializeComponent();
+            CargarDatos();
+        }
+
+        private void CargarDatos()
+        {
+            dg_Usuarios.Items.Clear();
+            dg_Usuarios.ItemsSource = Contratos_RK_Controlador.Instancia.ObtenerUsuarios().DefaultView;
+            dg_Configuraciones.Items.Clear();
+            dg_Configuraciones.ItemsSource = Contratos_RK_Controlador.Instancia.ObtenerConfiguracion().DefaultView;
         }
     }
 }

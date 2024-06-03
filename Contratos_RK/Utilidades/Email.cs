@@ -7,13 +7,15 @@ using System.IO; // Asegúrate de agregar esta línea
 using System.Net;
 using System.Net.Mail;
 using System.Net.Mime;
+using System.Net.Security;
+using System.Security.Cryptography.X509Certificates;
 using System.Windows.Forms;
 
 namespace Contratos_RK.Utilidades
 {
     public class Email
     {
-        
+
         public void SendEmail(string subject, string body, bool attachFile = false, string outputPath = "")
         {
             try
@@ -36,11 +38,18 @@ namespace Contratos_RK.Utilidades
                 }
 
                 // Configuración del cliente SMTP
-                SmtpClient smtpClient = new SmtpClient("smtp.office365.com")
+                SmtpClient smtpClient = new SmtpClient("180.176.74.200")
                 {
-                    Port = 587,
-                    Credentials = new NetworkCredential(Email_Modelo.Email_To, Email_Modelo.Password_To),
-                    EnableSsl = true,
+                    Port = 25,
+                    UseDefaultCredentials = false,
+                    EnableSsl = false,
+                    Credentials = new NetworkCredential(Email_Modelo.Email_To, Email_Modelo.Password_To)
+                };
+
+                // Validación del certificado del servidor
+                ServicePointManager.ServerCertificateValidationCallback = delegate (object s, X509Certificate certificate, X509Chain chain, SslPolicyErrors sslPolicyErrors)
+                {
+                    return true;
                 };
 
                 // Creación del mensaje de correo
@@ -48,7 +57,8 @@ namespace Contratos_RK.Utilidades
                 {
                     From = new MailAddress(Email_Modelo.Email_To),
                     Subject = subject,
-                    IsBodyHtml = true
+                    IsBodyHtml = true,
+                    Priority = MailPriority.Normal
                 };
 
                 foreach (var to in Email_Modelo.Para)
@@ -595,9 +605,9 @@ table, td { color: #000000; } @media (max-width: 480px) { #u_content_text_1 .v-t
 
 
 
-                 
 
-                return htmlTemplate.Replace("{nombre_user}", "").Replace("{body}", body).Replace("txt_Fecha","03/06/2024").Replace("txt_userName", SesionUsuario_Modelo.nombre);
+
+                return htmlTemplate.Replace("{nombre_user}", "").Replace("{body}", body).Replace("txt_Fecha", "03/06/2024").Replace("txt_userName", SesionUsuario_Modelo.nombre);
             }
             catch (FormatException ex)
             {
