@@ -8,6 +8,7 @@ using RK_Negocio.Controlador;
 using System.Data;
 using System;
 using System.IO;
+using System.Linq;
 
 namespace Contratos_RK.Vista.Pages.Contratos_SAMOA
 {
@@ -44,12 +45,110 @@ namespace Contratos_RK.Vista.Pages.Contratos_SAMOA
 
         private void btn_Guardar_Click(object sender, RoutedEventArgs e)
         {
+            try
+            {
+                // Validaciones de los campos obligatorios
+                if (string.IsNullOrWhiteSpace(combo_TipoContrato.Text))
+                {
+                    MessageBox.Show("Por favor, seleccione un tipo de contrato.", "Validación", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    return;
+                }
 
+                if (string.IsNullOrWhiteSpace(txt_numContrato.Text))
+                {
+                    MessageBox.Show("Por favor, ingrese el número de contrato.", "Validación", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    return;
+                }
+
+                if (string.IsNullOrWhiteSpace(txt_Denominacion.Text))
+                {
+                    MessageBox.Show("Por favor, ingrese la denominación del contrato.", "Validación", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    return;
+                }
+
+                if (combo_TipoContrato.Text != "Fondos" && string.IsNullOrWhiteSpace(combo_TipoBOCode.Text))
+                {
+                    MessageBox.Show("Por favor, seleccione un tipo de BO Code.", "Validación", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    return;
+                }
+
+                if (list_custodio.SelectedItem == null)
+                {
+                    MessageBox.Show("Por favor, seleccione un custodio.", "Validación", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    return;
+                }
+
+                if (string.IsNullOrWhiteSpace(combo_GoldenParent.Text))
+                {
+                    MessageBox.Show("Por favor, seleccione un Golden Parent.", "Validación", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    return;
+                }
+
+                var contrato = new Contratos_RK_Modelo
+                {
+                    BoCode = combo_TipoBOCode.Text,
+                    Contrato = txt_numContrato.Text,
+                    Denominacion = txt_Denominacion.Text,
+                    Moneda = "MXN", // Asumiendo que siempre es MXN, puedes ajustar esto según sea necesario
+                    NumeroContrato = txt_numContrato.Text,
+                    DenominacionContrato = txt_Denominacion.Text,
+                    FechaContrato = DateTime.Now.ToString("ddMMyyyy"), // Fecha actual
+                    TipoPort = string.Join("|", list_tipoPortGroup.SelectedItems.Cast<CB>().Select(i => i.valor)),
+                    TipoCustodio = list_custodio.SelectedItem.ToString(),
+                    TipoFondo = combo_TipoFondo.Text,
+                    TipoBoCode = combo_TipoBOCode.Text,
+                    ContratoExterno = txt_nombreContratoExternoFondos.Text,
+                    TipoContrato = combo_TipoContrato.Text,
+                    TipoGoldenParent = combo_GoldenParent.Text,
+                    ExternalAddress = SesionUsuario_Modelo.email
+                };
+
+                Contratos_RK_Controlador.Instancia.GuardarContrato(contrato);
+
+                MessageBox.Show("Registro almacenado correctamente.", "Información", MessageBoxButton.OK, MessageBoxImage.Information);
+                LimpiarFormulario();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al guardar el contrato: " + ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+        private void LimpiarFormulario()
+        {
+            combo_TipoContrato.SelectedIndex = -1;
+            combo_TipoFondo.SelectedIndex = -1;
+            combo_TipoBOCode.SelectedIndex = -1;
+            combo_GoldenParent.SelectedIndex = -1;
+            txt_numContrato.Clear();
+            txt_Denominacion.Clear();
+            //txt_FechaContrato.Clear();
+            txt_nombreContratoExternoFondos.Clear();
+            //txt_ExternalAddress.Clear();
+            list_tipoPortGroup.SelectedIndex = -1;
+            list_custodio.SelectedIndex = -1;
         }
 
         private void btn_EnviarCorreo_Click(object sender, RoutedEventArgs e)
         {
+            EscribirPlantillaExcel excelHelper = new EscribirPlantillaExcel();
+            try
+            {
+                string fileName = "Hoja de trabajo.xlsx";
+                // Crear directorio de salida si no existe
+                string outputDirectoryPath = @"" + Configuracion_Modelo.Draft_Creado;
+                if (!Directory.Exists(outputDirectoryPath))
+                {
+                    Directory.CreateDirectory(outputDirectoryPath);
+                }
+                string outputPath = Path.Combine(outputDirectoryPath, fileName); // Ruta para guardar el archivo de salida
 
+                // Enviar el correo
+                sendEmail(outputPath);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message.ToString());
+            }
         }
 
         private void btn_Buscar_Click(object sender, RoutedEventArgs e)
@@ -116,7 +215,7 @@ namespace Contratos_RK.Vista.Pages.Contratos_SAMOA
             string body = "<p>Este es el cuerpo del correo con <b>HTML</b>.</p>";
             bool attachFile = true; // Cambiar a false si no se quiere adjuntar archivo
             Email_Modelo.Para.Add(SesionUsuario_Modelo.email);
-            email.SendEmail(Email_Modelo.Asunto, body, attachFile, outputPath:outputPath);
+            email.SendEmail(Email_Modelo.Asunto, body, attachFile, outputPath: outputPath);
         }
 
         private void combo_TipoContrato_SelectionChanged(object sender, SelectionChangedEventArgs e)
