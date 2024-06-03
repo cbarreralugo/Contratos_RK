@@ -9,6 +9,7 @@ namespace RK_Negocio.Utilidades
     public class SP_RK
     {
         public static string sp_guardar_contrato = "sp_guardar_contrato";
+        public static string sp_buscar_contrato = "sp_buscar_contrato";
     }
     public static class SP_Sesion
     {

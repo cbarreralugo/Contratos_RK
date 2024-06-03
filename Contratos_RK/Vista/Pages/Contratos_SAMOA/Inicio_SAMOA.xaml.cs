@@ -100,7 +100,7 @@ namespace Contratos_RK.Vista.Pages.Contratos_SAMOA
                     ContratoExterno = txt_nombreContratoExternoFondos.Text,
                     TipoContrato = combo_TipoContrato.Text,
                     TipoGoldenParent = combo_GoldenParent.Text,
-                    ExternalAddress = SesionUsuario_Modelo.email
+                    ExternalAddress = txt_nombreContratoExterno.Text,
                 };
 
                 Contratos_RK_Controlador.Instancia.GuardarContrato(contrato);
@@ -153,7 +153,53 @@ namespace Contratos_RK.Vista.Pages.Contratos_SAMOA
 
         private void btn_Buscar_Click(object sender, RoutedEventArgs e)
         {
-            // Implementación del evento Click del botón Buscar
+            try
+            {
+                string numeroContrato = txt_numContrato.Text;
+
+                if (string.IsNullOrEmpty(numeroContrato))
+                {
+                    MessageBox.Show("No ha insertado un número válido.", "Advertencia", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+                    return;
+                }
+
+                if (!numeroContrato.StartsWith("MX"))
+                {
+                    numeroContrato = "MX" + numeroContrato;
+                }
+
+                DataTable result = Contratos_RK_Controlador.Instancia.BuscarContrato(numeroContrato);
+
+                if (result.Rows.Count == 0)
+                {
+                    MessageBox.Show("No se encontró ese número de contrato. Favor de validar.", "Advertencia", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+                    return;
+                }
+
+                DataRow row = result.Rows[0];
+
+                txt_Denominacion.Text = row["Denominacion"].ToString();
+                combo_TipoContrato.Text = row["TipoContrato"].ToString();
+                txt_FechaContrato.Text = DateTime.ParseExact(row["FechaContrato"].ToString(), "yyyyMMdd", null).ToString("dd/MM/yyyy");
+                txt_nombreContratoExterno.Text = row["ExternalAddress"].ToString();
+                txt_nombreContratoExternoFondos.Text = row["ContratoExterno"].ToString();
+
+                // Verificar subclasificaciones
+                if (string.IsNullOrEmpty(row["TipoPort"].ToString()) ||
+                    string.IsNullOrEmpty(row["TipoFondo"].ToString()) ||
+                    string.IsNullOrEmpty(row["TipoGoldenParent"].ToString()) ||
+                    string.IsNullOrEmpty(row["TipoBoCode"].ToString()) ||
+                    string.IsNullOrEmpty(row["TipoCustodio"].ToString()))
+                {
+                    MessageBox.Show("El contrato no tiene todas las subclasificaciones, favor de actualizar.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+
+                MessageBox.Show("Búsqueda completada.", "Información", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al buscar el contrato: " + ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
 
         private void btn_EnviarArchivoDraf_Click(object sender, RoutedEventArgs e)

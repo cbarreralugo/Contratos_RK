@@ -3,6 +3,7 @@ using RK_Negocio.Modelo;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Diagnostics.Contracts;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -60,7 +61,7 @@ namespace RK_Negocio.Controlador
         }
         private void CrearArchivoExcel(Contratos_RK_Modelo contrato)
         {
-            string folderPath = @""+Configuracion_Modelo.Draft_Creado;
+            string folderPath = @"" + Configuracion_Modelo.Draft_Creado;
             string fileName = "Hoja de trabajo.xlsx";
             string fullPath = Path.Combine(folderPath, fileName);
 
@@ -109,6 +110,24 @@ namespace RK_Negocio.Controlador
 
                 workbook.SaveAs(fullPath);
             }
+        }
+
+        public DataTable BuscarContrato(string numeroContrato)
+        {
+            DataTable data = new DataTable();
+            try
+            {
+                string[,] parametros =
+                {
+                    {"@numeroContrato", numeroContrato.ToString()}, 
+                };
+                data = ConnectorLibrary.App.GetCurrentConnector().Tabla(Utilidades.SP_RK.sp_buscar_contrato, parametros);
+            }
+            catch (Exception ex)
+            {
+                 Console.WriteLine(ex.Message);
+            }
+            return data;
         }
     }
 }

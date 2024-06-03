@@ -307,6 +307,14 @@
                                         <CheckBox x:Name="check_generalCorreor" Content="Generar correo con plantilla" IsChecked="True"/>
                                     </StackPanel>
                                     <StackPanel Margin="0 15 0 0">
+                                        <DatePicker
+                                            x:Name="txt_FechaContrato"
+                                              Width="auto"
+                                              materialDesign:HintAssist.Hint="Pick Date"
+                                              Style="{StaticResource MaterialDesignOutlinedDatePicker}" />
+                                    </StackPanel>
+                                    <StackPanel Margin="0 15 0 0">
+                                        
                                         <Button x:Name="btn_EnviarArchivoDraf" 
                                                 Background="{DynamicResource PrimaryOrangeColor}"
                                                 Click="btn_EnviarArchivoDraf_Click"
