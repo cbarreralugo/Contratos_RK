@@ -76,8 +76,9 @@
                             </Ellipse.Fill>
                         </Ellipse>
                         <StackPanel Orientation="Vertical" Margin="8 0 0 0">
-                            <Label Content="Administrador" Foreground="{DynamicResource TextPrimaryColor}" FontSize="14" FontWeight="SemiBold" HorizontalContentAlignment="Center" HorizontalAlignment="Left"/>
-                            <Label Content="cbarreralugo@gmail.com" Foreground="{DynamicResource PrimaryGrayColor}" FontSize="11" FontWeight="Regular" HorizontalContentAlignment="Center" HorizontalAlignment="Left" Margin="0 -10 0 0"/>
+                            <Label x:Name="txtTipoUsuario" Content="Administrador" Foreground="{DynamicResource TextPrimaryColor}" FontSize="14" FontWeight="SemiBold" HorizontalContentAlignment="Center" HorizontalAlignment="Left"/>
+                            <Label x:Name="txtEmail" Content="cbarreralugo@gmail.com" Foreground="{DynamicResource PrimaryGrayColor}" FontSize="11" FontWeight="Regular" HorizontalContentAlignment="Center" HorizontalAlignment="Left" Margin="0 -10 0 0"/>
+                            <Button x:Name="btnSalir" Width="120" HorizontalAlignment="Left" Style="{DynamicResource MaterialDesignFlatAccentBgButton}" Content="Cerrar Sesión" Click="btnSalir_Click" />
                         </StackPanel>
                     </StackPanel>
                 </Grid>

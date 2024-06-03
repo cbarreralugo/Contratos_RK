@@ -1,4 +1,7 @@
-﻿using System;
+﻿using Contratos_RK.Utilidades;
+using Contratos_RK.Vista;
+using RK_Negocio.Modelo;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -22,7 +25,15 @@ namespace Contratos_RK
         public Index()
         {
             InitializeComponent();
+            CargarSesion();
         }
+
+        private void CargarSesion()
+        {
+            txtEmail.Content = SesionUsuario_Modelo.email;
+            txtTipoUsuario.Content = SesionUsuario_Modelo.id_tipoUser == 1 ? "Administrador" : "Operador";
+        }
+
         private void Window_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             try
@@ -74,6 +85,12 @@ namespace Contratos_RK
             PagesNavigation.Navigate(new System.Uri("Vista/Pages/Contratos_SAMOA/Configuraciones_SAMOA.xaml", UriKind.RelativeOrAbsolute));
         }
 
-        
+        private void btnSalir_Click(object sender, RoutedEventArgs e)
+        {
+            Utilidades.SesionTemporal.DeleteFile();
+            Login login = new Login();
+            login.Show();
+            this.Close();
+        }
     }
 }

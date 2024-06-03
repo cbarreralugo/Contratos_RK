@@ -118,7 +118,7 @@ namespace Contratos_RK.Vista
 
         private void btnClose_Click(object sender, RoutedEventArgs e)
         {
-
+            this.Close();
         }
 
         private void btnRestore_Click(object sender, RoutedEventArgs e)

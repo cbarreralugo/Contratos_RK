@@ -12,17 +12,18 @@
         TextOptions.TextFormattingMode="Ideal"
         TextOptions.TextRenderingMode="Auto" 
         FontFamily="{DynamicResource MaterialDesignFont}"
-        Title="MainWindow" Height="450" Width="400" AllowsTransparency="True" WindowStyle="None" ResizeMode="NoResize" WindowStartupLocation="CenterScreen" Background="{x:Null}">
+        Title="MainWindow"  Height="450" Width="400" AllowsTransparency="True" WindowStyle="None" ResizeMode="NoResize" WindowStartupLocation="CenterScreen" Background="{x:Null}" BorderBrush="{DynamicResource ActionIconColor}">
 
     <Grid>
-        <Rectangle Fill="#FF0C0C21" HorizontalAlignment="Left" Height="450" VerticalAlignment="Top" Width="400" RadiusY="15.5" RadiusX="15.5"/>
-        <TextBlock HorizontalAlignment="Left" Height="32" Margin="0,57,0,0" TextWrapping="Wrap" Text="Bienvenido " VerticalAlignment="Top" Width="400" TextAlignment="Center" FontWeight="Bold" FontSize="20" Foreground="White"/>
-        <Label Content="Usuario" HorizontalAlignment="Left" Height="29" Margin="20,111,0,0" VerticalAlignment="Top" Width="360" FontSize="14" Foreground="#FFBBB7B7"/>
-        <TextBox x:Name="txt_email" HorizontalAlignment="Left" Height="34" Margin="20,140,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="360" Background="{x:Null}" BorderBrush="{x:Null}" SelectionBrush="{x:Null}" Foreground="White" FontSize="14" VerticalContentAlignment="Center" LostFocus="txt_email_LostFocus"/>
+        <Rectangle Fill="{DynamicResource MaterialDesignBackground}"  HorizontalAlignment="Left" Height="450" VerticalAlignment="Top" Width="400" RadiusY="15.5" RadiusX="15.5"/>
+        <TextBlock Foreground="Black" HorizontalAlignment="Left" Height="32" Margin="0,57,0,0" TextWrapping="Wrap" Text="Bienvenido " VerticalAlignment="Top" Width="400" TextAlignment="Center" FontWeight="Bold" FontSize="20" />
+        <Label Content="Usuario" HorizontalAlignment="Left" Height="29" Margin="20,111,0,0" VerticalAlignment="Top" Width="360" FontSize="14" Foreground="{DynamicResource ActionIconColor}"/>
+       
+        <TextBox x:Name="txt_email" HorizontalAlignment="Left" Height="34" Margin="20,140,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="360" Background="{x:Null}" SelectionBrush="{x:Null}"  FontSize="14" VerticalContentAlignment="Center" LostFocus="txt_email_LostFocus"/>
         <Path x:Name="email_path" Data="M20,174 L380,174" HorizontalAlignment="Left" Height="4" Margin="20,179,0,0" Stretch="Fill" VerticalAlignment="Top" Width="360" Stroke="White"/>
         <Image x:Name="img_emailcheck" HorizontalAlignment="Left" Height="29" Margin="351,145,0,0" VerticalAlignment="Top" Width="29" Source="/Vista/Assets/img/check.png" Visibility="Hidden"/>
-        <Label Content="Contraseña" HorizontalAlignment="Left" Height="29" Margin="20,199,0,0" VerticalAlignment="Top" Width="360" FontSize="14" Foreground="#FFBBB7B7"/>
-        <TextBox x:Name="txt_pass" HorizontalAlignment="Left" Height="34" Margin="20,233,0,0" VerticalAlignment="Top" Width="360" Background="{x:Null}" BorderBrush="{x:Null}" SelectionBrush="{x:Null}" Foreground="White" LostFocus="txt_pass_LostFocus"/>
+        <Label Content="E-mail" HorizontalAlignment="Left" Height="29" Margin="20,199,0,0" VerticalAlignment="Top" Width="360" FontSize="14" Foreground="{DynamicResource ActionIconColor}"/>
+        <TextBox x:Name="txt_pass" HorizontalAlignment="Left" Height="34" Margin="20,233,0,0" VerticalAlignment="Top" Width="360" Background="{x:Null}" SelectionBrush="{x:Null}" LostFocus="txt_pass_LostFocus"/>
         <Image x:Name="img_passcheck" HorizontalAlignment="Left" Height="29" Margin="351,233,0,0" VerticalAlignment="Top" Width="29" Source="/Vista/Assets/img/check.png" Visibility="Hidden"/>
         <Image x:Name="img_passcncel" HorizontalAlignment="Left" Height="29" Margin="351,233,0,0" VerticalAlignment="Top" Width="29" Source="/Vista/Assets/img/cancel.png" Visibility="Hidden"/>
         <Path x:Name="pass_path" Data="M20,180 C20,180 167,391 380,180" HorizontalAlignment="Left" Height="1" Margin="20,267,0,0" Stretch="Fill" VerticalAlignment="Top" Width="360" Stroke="White" RenderTransformOrigin="0.5,0.5">
@@ -38,14 +39,17 @@
         <Label Content="Recordar mi usuario:"
             FontSize="12"
                    Margin="10,288,246,134"
-            Foreground="{DynamicResource PrimaryTextColor}"
+            Foreground="{DynamicResource ActionIconColor}"
              />
-        <ToggleButton x:Name="Chek_Login"
+        <ToggleButton  x:Name="Chek_Login"
                    Margin="137,292,228,138"
                    IsChecked="False" 
-                   Style="{DynamicResource ToggleButtonStyle2}"/>
+  Style="{StaticResource MaterialDesignSwitchToggleButton}"
+  ToolTip="Default ToggleButton Style" />
 
-        <Button Content="iniciar sesión" HorizontalAlignment="Center" Height="40" Margin="0,336,0,0" VerticalAlignment="Top" Width="156" Style="{DynamicResource Login}" Click="Button_Click_1"/>
+
+        <Button Content="iniciar sesión" materialDesign:ButtonAssist.CornerRadius="10" Style="{StaticResource MaterialDesignRaisedDarkButton}"
+    ToolTip="Iniciar sesión" HorizontalAlignment="Center" Height="40" Margin="0,336,0,0" VerticalAlignment="Top" Width="200" Click="Button_Click_1" Background="{DynamicResource PrimaryGreenColor}"/>
 
         <!-- Start: Button Close | Restore | Minimize -->
         <StackPanel Grid.Row="0" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,5,10,0" Height="30" Orientation="Horizontal" FlowDirection="RightToLeft" Grid.RowSpan="2">
@@ -64,7 +68,8 @@
             </Button>
             <Button x:Name="btnMinimize" Style="{DynamicResource IconButtonsStyle}" Content="{DynamicResource minimize}" Click="btnMinimize_Click"/>
         </StackPanel>
-        <Button Content="Olvide mi contraseña." x:Name="btn_Recuperar" HorizontalAlignment="Center" Height="40" Margin="0,381,0,0" VerticalAlignment="Top" Width="156" Style="{DynamicResource PopupButtonStyle}" Foreground="{DynamicResource PrimaryTextColor}" Click="btn_Recuperar_Click" Cursor="Hand" />
+        <Button Content="Olvide mi usuario."  materialDesign:ButtonAssist.CornerRadius="10" Style="{StaticResource MaterialDesignRaisedDarkButton}"
+    ToolTip="Recuperar acceso" x:Name="btn_Recuperar" HorizontalAlignment="Center" Height="40" Margin="0,381,0,0" VerticalAlignment="Top" Width="200"  Click="btn_Recuperar_Click" Cursor="Hand" />
         <!-- End: Button Close | Restore | Minimize -->
     </Grid>
 </Window>
