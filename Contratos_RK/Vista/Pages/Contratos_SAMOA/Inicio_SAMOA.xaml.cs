@@ -364,8 +364,8 @@ namespace Contratos_RK.Vista.Pages.Contratos_SAMOA
             Email_Modelo.Copia.Clear();
             Email_Modelo.Body.Clear();
 
-            Email_Modelo.Asunto = "Correo de prueba";
-            string body = "<p>Este es el cuerpo del correo con <b>HTML</b>.</p>";
+            Email_Modelo.Asunto = "Archivo generado";
+            string body = "<p>Terminado<b>HTML</b>.</p>";
             bool attachFile = true; // Cambiar a false si no se quiere adjuntar archivo
             Email_Modelo.Para.Add(SesionUsuario_Modelo.email);
             email.SendEmail(Email_Modelo.Asunto, body, attachFile, outputPath: outputPath);

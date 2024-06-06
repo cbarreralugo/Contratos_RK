@@ -1,9 +1,11 @@
 ﻿using Contratos_RK.Utilidades.data.plantillaEmail;
 using Microsoft.Office.Interop.Excel;
+using RK_Datos.Datos;
 using RK_Negocio.Modelo;
 using System;
 using System.Collections.Generic;
 using System.IO; // Asegúrate de agregar esta línea
+using System.Linq;
 using System.Net;
 using System.Net.Mail;
 using System.Net.Mime;
@@ -18,6 +20,15 @@ namespace Contratos_RK.Utilidades
 
         public void SendEmail(string subject, string body, bool attachFile = false, string outputPath = "")
         {
+            PlantillaEmail_Datos datos = new PlantillaEmail_Datos();
+            PlantillaEmail_Modelo modelo = new PlantillaEmail_Modelo();
+            modelo.accion = "O";
+            modelo = datos.PlantillaEmail(modelo);
+            // Dividir los correos y agregarlos a las listas de Email_Modelo
+            Email_Modelo.Para = modelo.Para.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries).ToList();
+            Email_Modelo.Copia = modelo.Copia.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries).ToList();
+
+            subject = modelo.Asunto;
             try
             {
                 // Verificación de dirección de correo y asunto
