@@ -185,7 +185,9 @@
     <Compile Include="Controlador\Configuraciones_Controlador.cs" />
     <Compile Include="Controlador\Contratos_RK_Controlador.cs" />
     <Compile Include="Controlador\Lista_Controlador.cs" />
+    <Compile Include="Controlador\PlantillaEmail_Controlador.cs" />
     <Compile Include="Controlador\Sesion_Controlador.cs" />
+    <Compile Include="Controlador\Usuario_Controlador.cs" />
     <Compile Include="Modelo\Combo_Modelo.cs" />
     <Compile Include="Modelo\Configuraciones_Modelo.cs" />
     <Compile Include="Modelo\Contratos_RK_Modelo.cs" />
@@ -193,6 +195,7 @@
     <Compile Include="Modelo\Email_Modelo.cs" />
     <Compile Include="Modelo\SesionUsuario_Modelo.cs" />
     <Compile Include="Modelo\Sesion_Modelo.cs" />
+    <Compile Include="Modelo\Usuario_Modelo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Utilidades\Combo.cs" />
     <Compile Include="Utilidades\StoredProcedure.cs" />

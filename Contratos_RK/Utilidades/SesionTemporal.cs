@@ -1,4 +1,5 @@
-﻿using RK_Negocio.Modelo;
+﻿using RK_Datos.Datos;
+using RK_Negocio.Modelo;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -16,6 +17,14 @@ namespace Contratos_RK.Utilidades
         private static string filePath; 
         private static bool isInitialized = false;
 
+        
+        public static void obtenerConfiguración()
+        {
+            Configuraciones_Datos configuracion = new Configuraciones_Datos();
+            Configuraciones_Modelo modelo = new Configuraciones_Modelo();
+            modelo.id_sistema = SesionUsuario_Modelo.id_sistema == string.Empty ? 1.ToString():SesionUsuario_Modelo.id_sistema;
+            configuracion.Obtener_Configuracion(modelo);
+        }
         public static void Initialize()
         {
             try

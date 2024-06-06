@@ -222,6 +222,7 @@
     <Compile Include="Utilidades\data\plantillaEmail\style.cs" />
     <Compile Include="Utilidades\Email.cs" />
     <Compile Include="Utilidades\EscribirPlantillaExcel.cs" />
+    <Compile Include="Utilidades\funciones.cs" />
     <Compile Include="Utilidades\SesionTemporal.cs" />
     <Compile Include="Vista\Login.xaml.cs">
       <DependentUpon>Login.xaml</DependentUpon>

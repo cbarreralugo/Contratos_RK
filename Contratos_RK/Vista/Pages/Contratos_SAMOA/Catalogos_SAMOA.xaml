@@ -19,7 +19,7 @@
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
                     <ScrollViewer Grid.Column="0"
-                                  Width="200"
+                                  Width="200" Visibility="Collapsed"
                                   Height="500">
                         <StackPanel Height="auto" Width="auto" Orientation="Vertical">
                             <TextBox  
@@ -102,7 +102,8 @@
                         </StackPanel>
                     </ScrollViewer>
                     <DataGrid x:Name="dg_Contratos"
-               Grid.Column="1" 
+               Grid.Column="0" 
+                              Grid.ColumnSpan="2"
                CanUserAddRows="False"
                ItemsSource="{Binding Items2}"
                SelectionMode="Extended"

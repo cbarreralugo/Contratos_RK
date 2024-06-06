@@ -28,8 +28,8 @@
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
-            
-            
+
+
             <materialDesign:Card Padding="10"  
                   materialDesign:ElevationAssist.Elevation="Dp4"
                                  Margin="10" 
@@ -104,7 +104,7 @@
 
                 </Grid>
             </materialDesign:Card>
-            
+
 
             <materialDesign:Card Padding="10"  
                   materialDesign:ElevationAssist.Elevation="Dp4"
@@ -212,8 +212,8 @@
                           Margin="10" 
                           Background="{DynamicResource MaterialDesignBackground}" 
                           Grid.Row="0">
-                        <StackPanel Orientation="Vertical" Grid.Column="0" Grid.Row="0">
-                            <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" Height="auto">
+                        <ScrollViewer VerticalScrollBarVisibility="Visible" Height="auto" Width="auto">
+                            <StackPanel Orientation="Vertical" Grid.Column="0" Grid.Row="0">
                                 <ListBox x:Name="list_tipoPortGroup" SelectionMode="Multiple" materialDesign:ListBoxItemAssist.ShowSelection="True">
                                     <ListBox.ItemTemplate>
                                         <DataTemplate>
@@ -221,8 +221,8 @@
                                         </DataTemplate>
                                     </ListBox.ItemTemplate>
                                 </ListBox>
-                            </ScrollViewer>
-                        </StackPanel>
+                            </StackPanel>
+                        </ScrollViewer>
                     </materialDesign:Card>
 
                     <!-- Custodio -->
@@ -236,17 +236,23 @@
                             Margin="10" 
                             Background="{DynamicResource MaterialDesignBackground}" 
                             Grid.Row="1">
-                        <StackPanel Orientation="Vertical" Grid.Column="0" Grid.Row="0">
-                            <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" Height="auto">
-                                <ListBox x:Name="list_custodio" SelectionMode="Single" materialDesign:ListBoxItemAssist.ShowSelection="True">
+                        <ScrollViewer VerticalScrollBarVisibility="Visible" Height="auto" Width="auto">
+                            <StackPanel Orientation="Vertical" Grid.Column="0" Grid.Row="0">
+                                <ListBox x:Name="list_custodio" SelectionMode="Single" 
+                 materialDesign:ListBoxItemAssist.ShowSelection="True"
+                 Loaded="ListBox_Loaded"
+                 SelectionChanged="ListBox_SelectionChanged">
                                     <ListBox.ItemTemplate>
                                         <DataTemplate>
-                                            <RadioButton Content="{Binding valor}" GroupName="CustodioGroup" Style="{StaticResource MaterialDesignRadioButton}"/>
+                                            <RadioButton Content="{Binding valor}" GroupName="CustodioGroup" 
+                                 IsChecked="{Binding IsSelected, RelativeSource={RelativeSource FindAncestor, AncestorType=ListBoxItem}, Mode=TwoWay}" 
+                                 Style="{StaticResource MaterialDesignRadioButton}"/>
                                         </DataTemplate>
                                     </ListBox.ItemTemplate>
                                 </ListBox>
-                            </ScrollViewer>
-                        </StackPanel>
+                            </StackPanel>
+                        </ScrollViewer>
+
                     </materialDesign:Card>
 
 
@@ -314,7 +320,7 @@
                                               Style="{StaticResource MaterialDesignOutlinedDatePicker}" />
                                     </StackPanel>
                                     <StackPanel Margin="0 15 0 0">
-                                        
+
                                         <Button x:Name="btn_EnviarArchivoDraf" 
                                                 Background="{DynamicResource PrimaryOrangeColor}"
                                                 Click="btn_EnviarArchivoDraf_Click"

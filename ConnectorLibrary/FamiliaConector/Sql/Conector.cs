@@ -728,7 +728,8 @@ namespace ConnectorLibrary.FamiliaConector.Sql
                             MessageBox.Show("ERROR: " + e.Message);
                             cmd.Connection.Close();
                             throw new Exception(e.Message);
-                        }
+                        } 
+                        cmd.Connection.Close();
                         return dt;
                     }
                 }

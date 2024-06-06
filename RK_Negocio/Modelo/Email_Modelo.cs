@@ -13,4 +13,13 @@ namespace RK_Negocio.Modelo
         public static string Image { get; set; }
         public static Dictionary<string, string> Body { get; set; } = new Dictionary<string, string>();
     }
+    public class PlantillaEmail_Modelo
+    {
+        public string Para { get; set; } = "";
+        public  string Copia { get; set; } = "";
+        public string Asunto { get; set; } = "";
+        public string body { get; set; } = "";
+        public string id_sistema { get; set; } = "0";
+        public string accion { get; set; } = "";
+    }
 }

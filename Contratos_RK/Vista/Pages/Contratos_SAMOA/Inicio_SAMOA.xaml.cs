@@ -22,9 +22,50 @@ namespace Contratos_RK.Vista.Pages.Contratos_SAMOA
 
         private void CargarDatos()
         {
+            // Cargar los datos iniciales en los ComboBoxes
             CargarCombo.FillCombo(combo_TipoContrato, "TipoContrato");
+            combo_TipoContrato.SelectedIndex = 0;
+            txt_FechaContrato.SelectedDate = DateTime.Today;
+
+            // Establecer la combinación inicial basada en la selección del ComboBox de tipo de contrato
+            combo_TipoContrato_SelectionChanged(combo_TipoContrato, null);
+        }
+        private void ListBox_Loaded(object sender, RoutedEventArgs e)
+        {
+            if (list_custodio.Items.Count > 0)
+            {
+                list_custodio.SelectedIndex = 0;
+            }
         }
 
+        private void ListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (e.RemovedItems.Count > 0)
+            {
+                ListBoxItem removedItem = (ListBoxItem)list_custodio.ItemContainerGenerator.ContainerFromItem(e.RemovedItems[0]);
+                if (removedItem != null)
+                {
+                    RadioButton radioButton = (RadioButton)removedItem.Template.FindName("RadioButton", removedItem);
+                    if (radioButton != null)
+                    {
+                        radioButton.IsChecked = false;
+                    }
+                }
+            }
+
+            if (e.AddedItems.Count > 0)
+            {
+                ListBoxItem addedItem = (ListBoxItem)list_custodio.ItemContainerGenerator.ContainerFromItem(e.AddedItems[0]);
+                if (addedItem != null)
+                {
+                    RadioButton radioButton = (RadioButton)addedItem.Template.FindName("RadioButton", addedItem);
+                    if (radioButton != null)
+                    {
+                        radioButton.IsChecked = true;
+                    }
+                }
+            }
+        }
         private void LimpiarCombo(ComboBox combo)
         {
             combo.ItemsSource = null;
@@ -35,12 +76,13 @@ namespace Contratos_RK.Vista.Pages.Contratos_SAMOA
         {
             combo.IsEnabled = true;
             CargarCombo.FillCombo(combo, tipo, filtroId);
+            combo.SelectedIndex = 0; // Seleccionar el primer elemento automáticamente
         }
-
 
         private void btn_limpiar_Click(object sender, RoutedEventArgs e)
         {
-            // Implementación del evento Click del botón Limpiar
+            LimpiarFormulario();
+            CargarDatos();
         }
 
         private void btn_Guardar_Click(object sender, RoutedEventArgs e)
@@ -113,6 +155,7 @@ namespace Contratos_RK.Vista.Pages.Contratos_SAMOA
                 MessageBox.Show("Error al guardar el contrato: " + ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
+
         private void LimpiarFormulario()
         {
             combo_TipoContrato.SelectedIndex = -1;
@@ -121,9 +164,9 @@ namespace Contratos_RK.Vista.Pages.Contratos_SAMOA
             combo_GoldenParent.SelectedIndex = -1;
             txt_numContrato.Clear();
             txt_Denominacion.Clear();
-            //txt_FechaContrato.Clear();
+            txt_FechaContrato.Text = "";
             txt_nombreContratoExternoFondos.Clear();
-            //txt_ExternalAddress.Clear();
+            txt_nombreContratoExterno.Clear();
             list_tipoPortGroup.SelectedIndex = -1;
             list_custodio.SelectedIndex = -1;
         }
@@ -219,22 +262,40 @@ namespace Contratos_RK.Vista.Pages.Contratos_SAMOA
                                                                                   // Ruta del archivo Excel de salida
                 string outputPath = Path.Combine(outputDirectoryPath, @"Plantilla_APP.xlsx"); // Ruta para guardar el archivo de salida
 
+                // Obtener los valores dinámicos de los componentes
+                string tipoDraf = ((ComboBoxItem)Combo_tipoDraf.SelectedItem).Content.ToString();
+                string userName = SesionUsuario_Modelo.nombre;
+                string fecha = txt_FechaContrato.SelectedDate?.ToString("dd/MM/yyyy") ?? string.Empty;
+                string portafolio = "SAMBPI2"; // Este valor debes definir de dónde lo obtendrás
+
+                // Obtener detalles del custodio desde la base de datos
+                int idTipoCustodio = ((CB)list_custodio.SelectedItem)?.id ?? 0;
+                string custodioDetalle = Contratos_RK_Controlador.Instancia.ObtenerDetalleCustodio(idTipoCustodio);
+
+                // Obtener detalles del BO desde la base de datos
+                int idTipoBo = ((CB)combo_TipoBOCode.SelectedItem)?.id ?? 0;
+                string boDetalle = Contratos_RK_Controlador.Instancia.ObtenerDetalleBo(idTipoBo);
+
+                string portGroupSeleccionado = string.Join(";", list_tipoPortGroup.SelectedItems.Cast<CB>().Select(i => "PORT_GRP|" + i.valor));
+                string gpSeleccionado = string.Join(";", list_tipoPortGroup.SelectedItems.Cast<CB>().Select(i => "GP|" + i.valor));
+                string externalAddress = txt_nombreContratoExterno.Text;
+
                 // Diccionario de valores a reemplazar
                 Dictionary<string, string> model = new Dictionary<string, string>
-            {
-                { "txt_fecha", "Create" },
-                { "txt_tipoCreacion_Modificacion", "Create" },
-                { "txt_userName", "Carlos Alberto" },
-                { "txt_Fecha", "02/06/2024" },
-                { "txt_Portafolio", "SAMBPI2" },
-                { "txt_type_custodio", "[BCOS3MX] Banco S3 Mexico S.A. Institucion de Banca Multiple|1039327|" },
-                { "txt_type_cuenta", "[BCOS3MX] Banco S3 Mexico S.A. Institucion de Banca Multiple|1039327|MXN" },
-                { "txt_gp", "GP|INST-AMRS|;GP|MX-AGG|;GP|MX-EQUITY|;GP|MX-ALCAP|" },
-                { "txt_grupo", "PORT_GRP|MX-FI-FNDS|;PORT_GRP|SAM_B1_6|;PORT_GRP|AQS_AUM_PG|;PORT_GRP|TST-AMRS|" },
-                { "txt_monto", "PORT_GRP|MX-FI-FNDS|;PORT_GRP|SAM_B1_6|;PORT_GRP|AQS_AUM_PG|;PORT_GRP|TST-AMRS|" },
-                { "txt_BO_COVAF", "COVAF/MXSAMBPI2/Fondo SAM Renta Variable 29, S.A. de C.V. Fondo de Inversion de Renta Variable/MXN/SAMBPI2/Fondo SAM Renta Variable 29, S.A. de C.V. Fondo de Inversion de Renta Variable/SAMBPI2" },
-                { "txt_BO_PFOLIOS", "PFOLIOS/MXSAMBPI2/Fondo SAM Renta Variable 29, S.A. de C.V. Fondo de Inversion de Renta Variable/MXN/SAMBPI2/Fondo SAM Renta Variable 29, S.A. de C.V. Fondo de Inversion de Renta Variable/SAMBPI2" }
-            };
+        {
+            { "txt_Create_Update", tipoDraf + "Create" },
+            { "txt_tipoCreacion_Modificacion", tipoDraf },
+            { "txt_userName", userName },
+            { "txt_Fecha", fecha },
+            { "txt_Portafolio", portafolio },
+            { "txt_type_custodio", custodioDetalle },
+            { "txt_type_cuenta", custodioDetalle + "|MXN" },
+            { "txt_gp", gpSeleccionado },
+            { "txt_grupo", portGroupSeleccionado },
+            { "txt_monto", portGroupSeleccionado },
+            { "txt_BO_COVAF", boDetalle },
+            { "txt_BO_PFOLIOS", boDetalle }
+        };
 
                 excelHelper.FillExcelTemplate(templatePath, outputPath, model);
 
@@ -249,6 +310,52 @@ namespace Contratos_RK.Vista.Pages.Contratos_SAMOA
                 MessageBox.Show(ex.Message.ToString());
             }
         }
+        //private void btn_EnviarArchivoDraf_Click(object sender, RoutedEventArgs e)
+        //{
+        //    EscribirPlantillaExcel excelHelper = new EscribirPlantillaExcel();
+        //    try
+        //    {
+        //        // Crear directorio de salida si no existe
+        //        string outputDirectoryPath = @"" + Configuracion_Modelo.Draft_Creado;
+        //        if (!Directory.Exists(outputDirectoryPath))
+        //        {
+        //            Directory.CreateDirectory(outputDirectoryPath);
+        //        }
+
+        //        // Ruta del archivo Excel plantilla
+        //        string templatePath = @"" + Configuracion_Modelo.Plantilla_Draft; // Ruta a la plantilla
+        //                                                                          // Ruta del archivo Excel de salida
+        //        string outputPath = Path.Combine(outputDirectoryPath, @"Plantilla_APP.xlsx"); // Ruta para guardar el archivo de salida
+
+        //        // Diccionario de valores a reemplazar
+        //        Dictionary<string, string> model = new Dictionary<string, string>
+        //    {
+        //        { "txt_Create_Update", "Create" },
+        //        { "txt_tipoCreacion_Modificacion", "Create" },
+        //        { "txt_userName", "Carlos Alberto" },
+        //        { "txt_Fecha", "02/06/2024" },
+        //        { "txt_Portafolio", "SAMBPI2" },
+        //        { "txt_type_custodio", "[BCOS3MX] Banco S3 Mexico S.A. Institucion de Banca Multiple|1039327|" },
+        //        { "txt_type_cuenta", "[BCOS3MX] Banco S3 Mexico S.A. Institucion de Banca Multiple|1039327|MXN" },
+        //        { "txt_gp", "GP|INST-AMRS|;GP|MX-AGG|;GP|MX-EQUITY|;GP|MX-ALCAP|" },
+        //        { "txt_grupo", "PORT_GRP|MX-FI-FNDS|;PORT_GRP|SAM_B1_6|;PORT_GRP|AQS_AUM_PG|;PORT_GRP|TST-AMRS|" },
+        //        { "txt_monto", "PORT_GRP|MX-FI-FNDS|;PORT_GRP|SAM_B1_6|;PORT_GRP|AQS_AUM_PG|;PORT_GRP|TST-AMRS|" },
+        //        { "txt_BO_COVAF", "COVAF/MXSAMBPI2/Fondo SAM Renta Variable 29, S.A. de C.V. Fondo de Inversion de Renta Variable/MXN/SAMBPI2/Fondo SAM Renta Variable 29, S.A. de C.V. Fondo de Inversion de Renta Variable/SAMBPI2" },
+        //        { "txt_BO_PFOLIOS", "PFOLIOS/MXSAMBPI2/Fondo SAM Renta Variable 29, S.A. de C.V. Fondo de Inversion de Renta Variable/MXN/SAMBPI2/Fondo SAM Renta Variable 29, S.A. de C.V. Fondo de Inversion de Renta Variable/SAMBPI2" }
+        //    }; excelHelper.FillExcelTemplate(templatePath, outputPath, model);
+
+        //        // Actualizar el cuerpo del modelo de email
+        //        Email_Modelo.Body = model;
+
+        //        // Enviar el correo
+        //        sendEmail(outputPath);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        MessageBox.Show(ex.Message.ToString());
+        //    }
+        //}
+
         private void sendEmail(string outputPath)
         {
             Email email = new Email();
@@ -274,12 +381,15 @@ namespace Contratos_RK.Vista.Pages.Contratos_SAMOA
 
                 switch (selectedTipoContrato.id)
                 {
-                    case 1: // ID para Mandatos
-                    case 2: // ID para Clientes en directo
+                    case 1: // Mandatos
                         HabilitarYRecargarCombo(combo_TipoBOCode, "TipoBo", selectedTipoContrato.id);
                         HabilitarYRecargarCombo(combo_GoldenParent, "TipoGolden", selectedTipoContrato.id);
                         break;
-                    case 3: // ID para Fondos
+                    case 2: // Clientes en directo
+                        HabilitarYRecargarCombo(combo_TipoBOCode, "TipoBo", selectedTipoContrato.id);
+                        HabilitarYRecargarCombo(combo_GoldenParent, "TipoGolden", selectedTipoContrato.id);
+                        break;
+                    case 3: // Fondos
                         HabilitarYRecargarCombo(combo_TipoFondo, "TipoFondo", selectedTipoContrato.id);
                         combo_TipoBOCode.IsEnabled = false;
                         HabilitarYRecargarCombo(combo_GoldenParent, "TipoGolden", selectedTipoContrato.id);
@@ -289,35 +399,45 @@ namespace Contratos_RK.Vista.Pages.Contratos_SAMOA
                 }
             }
         }
-
+         
         private void combo_TipoFondo_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (combo_TipoFondo.SelectedItem is CB selectedTipoFondo)
             {
+                LimpiarCombo(combo_GoldenParent);
                 HabilitarYRecargarCombo(combo_GoldenParent, "TipoGolden", selectedTipoFondo.id);
             }
         }
 
         private void combo_TipoBOCode_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            LimpiarCombo(combo_GoldenParent);
             if (combo_TipoBOCode.SelectedItem is CB selectedTipoBo)
             {
+                LimpiarCombo(combo_GoldenParent);
                 HabilitarYRecargarCombo(combo_GoldenParent, "TipoGolden", selectedTipoBo.id);
 
                 if (combo_TipoContrato.SelectedItem is CB selectedTipoContrato)
                 {
                     // Cargar listas PortGroup y Custodio
-
-                    CargarLista.CargarListaPortGroupCustodio(list_tipoPortGroup, CargarLista.tipo.checkbox, selectedTipoContrato.id, selectedTipoBo.id);
-                    CargarLista.CargarListaPortGroupCustodio(list_custodio, CargarLista.tipo.radiobuton, selectedTipoContrato.id, selectedTipoBo.id);
+                    CargarLista.CargarListaPortGroupCustodio(list_tipoPortGroup, CargarLista.Tipo.Checkbox, selectedTipoContrato.id, selectedTipoBo.id, 0);
+                    CargarLista.CargarListaPortGroupCustodio(list_custodio, CargarLista.Tipo.Radiobutton, selectedTipoContrato.id, selectedTipoBo.id, 0);
+                    list_custodio.SelectedIndex = 0;
                 }
             }
         }
 
+
         private void combo_GoldenParent_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            // Manejar el evento si es necesario
+           
+        }
+
+        private void list_custodio_Loaded(object sender, RoutedEventArgs e)
+        {
+            if (list_custodio.Items.Count > 0)
+            {
+                list_custodio.SelectedIndex = 0;
+            }
         }
     }
 }

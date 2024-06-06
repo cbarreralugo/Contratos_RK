@@ -24,14 +24,10 @@ namespace Contratos_RK.Vista
     /// </summary>
     public partial class Login : Window
     {
-        Configuraciones_Datos configuracion;
         public Login()
         {
             InitializeComponent();
-            configuracion = new Configuraciones_Datos();
-            Configuraciones_Modelo modelo = new Configuraciones_Modelo();
-            modelo.id_sistema = "1";
-            configuracion.Obtener_Configuracion(modelo);
+            SesionTemporal.obtenerConfiguración();
 
             // Inicializar AES con la clave correcta 
 
@@ -51,6 +47,9 @@ namespace Contratos_RK.Vista
                 }
             }
         }
+
+       
+
         private void txt_email_LostFocus(object sender, RoutedEventArgs e)
         {
             if (txt_email.Text.Trim() != string.Empty)
@@ -82,10 +81,12 @@ namespace Contratos_RK.Vista
                     if (Chek_Login.IsChecked == true)
                     {
                         SesionTemporal.Initialize();
-                        Utilidades.SesionTemporal.CreateFile(username, email);
+                        Utilidades.SesionTemporal.CreateFile(username, email); 
                         //Toast.Correcto("Sesión guardada con exito");
                         //Toast.CreateLog("Sesión guardad con exito en el equipo", "Se almaceno las credenciales en el equipo de forma local, para hacer un logeo facil");
                     }
+
+                    SesionTemporal.obtenerConfiguración();
                     //Toast.Correcto("Hola de nuevo");
                     //Toast.CreateLog("Inicio se sesión", "Se ingresa al sistema por medio de la app.");
                     Index index = new Index();

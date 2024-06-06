@@ -6,7 +6,7 @@ using System.Windows.Controls;
 
 namespace Contratos_RK.Utilidades
 {
-    public class CargarCombo
+    public class CargarCombo 
     {
         public static void FillCombo(ComboBox combo, string tipo, int? filtroId = null)
         {
@@ -30,10 +30,7 @@ namespace Contratos_RK.Utilidades
                 combo.DisplayMemberPath = "valor";
                 combo.SelectedValuePath = "id";
 
-                if (lista.Count > 0)
-                {
-                    combo.SelectedIndex = 0; // Selecciona el primer elemento automáticamente
-                }
+               
             }
         }
 
@@ -47,9 +44,9 @@ namespace Contratos_RK.Utilidades
                     return 2;
                 case "TipoContrato":
                     return 3;
-                case "TipoFondo":
-                    return 4;
                 case "TipoBo":
+                    return 4;
+                case "TipoFondo":
                     return 5;
                 case "TipoGolden":
                     return 6;

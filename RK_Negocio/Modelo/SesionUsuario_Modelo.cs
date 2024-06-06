@@ -9,16 +9,16 @@ namespace RK_Negocio.Modelo
     public static class SesionUsuario_Modelo
     {
 
-        public static int id_usuario { get; set; }
+        public static int id_usuario { get; set; } = 0;
 
-        public static string nombre { get; set; }
+        public static string nombre { get; set; } = string.Empty;
 
-        public static string email { get; set; }
+        public static string email { get; set; } = string.Empty;
 
-        public static string id_sistema { get; set; }
+        public static string id_sistema { get; set; }=string.Empty;
 
-        public static int id_tipoUser { get; set; }
+        public static int id_tipoUser { get; set; } = 0;
 
-        public static string estatus { get; set; }
+        public static string estatus { get; set; } = string.Empty;
     }
 }

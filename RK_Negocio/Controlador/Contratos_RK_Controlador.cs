@@ -200,13 +200,16 @@ namespace RK_Negocio.Controlador
             }
             return data;
         }
-        public DataTable ObtenerUsuarios()
+        public DataTable ObtenerUsuarios(string id_sistema="")
         {
             DataTable data = new DataTable();
             try
             {
-
-                data = ConnectorLibrary.App.GetCurrentConnector().Tabla(Utilidades.SP_RK.sp_ctr_obtener_usuarios);
+                string[,] parametros =
+               {
+                    {"@id_sistema", id_sistema==""?SesionUsuario_Modelo.id_sistema:id_sistema},
+                };
+                data = ConnectorLibrary.App.GetCurrentConnector().Tabla(Utilidades.SP_RK.sp_ctr_obtener_usuarios,parametros);
             }
             catch (Exception ex)
             {
@@ -227,6 +230,44 @@ namespace RK_Negocio.Controlador
                 Console.WriteLine(ex.Message);
             }
             return data;
+        }
+
+        public string ObtenerDetalleCustodio(int idTipoCustodio)
+        {
+            DataTable data = new DataTable();
+            string detalleCustodio = string.Empty;
+            try
+            {
+                string[,] parametros =
+            {
+                {"@id_tipo_custodio", idTipoCustodio.ToString()} };
+                data = ConnectorLibrary.App.GetCurrentConnector().Tabla(Utilidades.SP_RK.sp_ctr_custodio_detalle,parametros); 
+                detalleCustodio = $"[{data.Rows[0]["codigo_custodio"]}] {data.Rows[0]["nombre_custodio"]}";
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            return detalleCustodio;
+        }
+
+        public string ObtenerDetalleBo(int idTipoBo)
+        {
+            DataTable data = new DataTable();
+            string detalleCustodio = string.Empty;
+            try
+            {
+                string[,] parametros =
+            {
+                {"@id_tipo_bo", idTipoBo.ToString()} };
+                data = ConnectorLibrary.App.GetCurrentConnector().Tabla(Utilidades.SP_RK.sp_ctr_bo_detalle, parametros);
+                detalleCustodio = $"[{data.Rows[0]["codigo_custodio"]}] {data.Rows[0]["nombre_custodio"]}";
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            return detalleCustodio;
         }
     }
 }

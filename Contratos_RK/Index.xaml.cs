@@ -46,8 +46,7 @@ namespace Contratos_RK
             }
             catch (Exception ex)
             {
-
-                throw;
+                 
             }
         }
         private void btnClose_Click(object sender, RoutedEventArgs e)

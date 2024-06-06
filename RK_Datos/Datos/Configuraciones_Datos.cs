@@ -36,19 +36,19 @@ namespace RK_Datos.Datos
                                     conf_.Plantilla_Draft = Configuracion_Modelo.Plantilla_Draft= valor;
                                     break;
                                 case "Draft_Creado":
-                                    conf_.Draft_Creado =Configuracion_Modelo.Draft_Creado= valor;
+                                    conf_.Draft_Creado =Configuracion_Modelo.Draft_Creado= Configuracion_Modelo.Draft_Creado= valor;
                                     break;
                                 case "Email_To":
-                                    conf_.Email_To = Email_Modelo.Email_To = valor;
+                                    conf_.Email_To = Email_Modelo.Email_To =Configuracion_Modelo.Email_To= valor;
                                     break;
                                 case "Password_To":
-                                    conf_.Password_To = Email_Modelo.Password_To = valor;
+                                    conf_.Password_To = Email_Modelo.Password_To =Configuracion_Modelo.Password_To= valor;
                                     break;
                                 case "image_status":
-                                    conf_.image_status = Email_Modelo.Image = valor;
+                                    conf_.image_status = Email_Modelo.Image =Configuracion_Modelo.image_status= valor;
                                     break;
                                 case "SesionTemporal":
-                                    conf_.SesionTemporal =Configuracion_Modelo.SesionTemporal= valor;
+                                    conf_.SesionTemporal =Configuracion_Modelo.SesionTemporal= Configuracion_Modelo.SesionTemporal= valor;
                                     break;
 
                             }
@@ -109,15 +109,7 @@ namespace RK_Datos.Datos
                         case "image_status":
                             conf_.image_status = Email_Modelo.Image = valor;
                             break;
-                            //case "key":
-                            //    conf_.key = Configuracion_Modelo.key = valor;
-                            //    break;
-                            //case "mostrar_alertas":
-                            //    conf_.mostrar_alerts = Configuracion_Modelo.mostrar_alerts = int.Parse(valor);
-                            //    break;
-                            //case "auto_regenerar_token_user":
-                            //    conf_.auto_regenerar_token_user = Configuracion_Modelo.auto_regenerar_token_user = int.Parse(valor);
-                            //    break;
+                        
                     }
                 }
             }

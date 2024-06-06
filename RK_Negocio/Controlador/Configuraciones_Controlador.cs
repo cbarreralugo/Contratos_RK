@@ -23,18 +23,13 @@ namespace RK_Negocio.Controlador
                 return instance;
             }
         }
-
-        public void Actualizar_Configuracion(Configuraciones_Modelo conf_)
-        {
-            throw new NotImplementedException();
-        }
-
+         
         public DataTable ObtenerConfiguraciones(Configuraciones_Modelo modelo)
         {
-            DataTable dt = new DataTable();
+            DataTable dt = new DataTable(); 
             string[,] parametros =
             {
-                {"@accion",modelo.accion.ToString() },   //'C' para crear, 'M' para modificar, 'T' para obtener todos, 'O' para obtener uno
+                {"@accion",modelo.accion.ToString() }, 
                 {"@id_sistema",modelo.id_sistema==null?"":modelo.id_sistema },
                 {"@Plantilla_Draf",modelo.Plantilla_Draft==null?"":modelo.Plantilla_Draft},//ruta_plantilla
                 {"@Draft_Creado",modelo.Draft_Creado == null ? "" : modelo.Draft_Creado},//ruta creado
@@ -45,11 +40,39 @@ namespace RK_Negocio.Controlador
             try
             {
                 dt = ConnectorLibrary.App.GetCurrentConnector().Tabla(Utilidades.SP_Configuraciones.sp_ctr_obtener_modificar_configuraciones_sistema, parametros);
+                
                 return dt;
             }
             catch (Exception e) { throw e; }
             finally { dt = new DataTable(); }
 
+        }
+        public DataTable ModificarConfiguraciones(Configuraciones_Modelo modelo)
+        {
+            DataTable dt = new DataTable();
+            string[,] parametros =
+            {
+                {"@accion", modelo.accion ?? "U"},  // 'U' para actualización
+                {"@id_sistema", SesionUsuario_Modelo.id_sistema},
+                {"@Plantilla_Draf", modelo.Plantilla_Draft ?? ""}, // ruta_plantilla
+                {"@Draft_Creado", modelo.Draft_Creado ?? ""}, // ruta creado
+                {"@Email_To", modelo.Email_To ?? ""},
+                {"@Password_To", modelo.Password_To ?? ""},
+                {"@image_status", modelo.image_status ?? ""}
+            };
+            try
+            {
+                dt = ConnectorLibrary.App.GetCurrentConnector().Tabla(Utilidades.SP_Configuraciones.sp_ctr_obtener_modificar_configuraciones_sistema, parametros);
+                return dt;
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+            finally
+            {
+                dt = new DataTable(); // Reset dt for clean-up
+            }
         }
     }
 }

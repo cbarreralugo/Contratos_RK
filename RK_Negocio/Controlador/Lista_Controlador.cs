@@ -22,13 +22,14 @@ namespace RK_Negocio.Controlador
                 return _instancia;
             }
         }
-        public DataTable Obtener_PortGroup_Custodio(int tipoContratoId, int tipoBoId)
+        public DataTable Obtener_PortGroup_Custodio(int tipoContratoId, int tipoBoId,int tipoFondo)
         {
             DataTable dt = new DataTable();
             string[,] parametro =
             {
-                {"@tipoContratoId", tipoContratoId.ToString()},
-                {"@tipoBoId", tipoBoId.ToString()}
+                {"@id_tipo_contrato", tipoContratoId.ToString()},
+                {"@id_tipo_bo", tipoBoId.ToString()},
+                {"@id_tipo_fondo", tipoFondo.ToString()}
             };
 
             try
