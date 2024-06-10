@@ -12,9 +12,6 @@ using Microsoft.Win32;
 
 namespace Contratos_RK.Vista.Pages.Contratos_SAMOA
 {
-    /// <summary>
-    /// Interaction logic for Configuraciones_SAMOA.xaml
-    /// </summary>
     public partial class Configuraciones_SAMOA : Page
     {
         private string templatesDirectory = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Templates");
@@ -199,6 +196,47 @@ namespace Contratos_RK.Vista.Pages.Contratos_SAMOA
             else
             {
                 MessageBox.Show("Por favor, seleccione un archivo para abrir.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+
+        private void DeleteButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (TemplatesDataGrid.SelectedItem is TemplateFile selectedFile)
+            {
+                if (MessageBox.Show("¿Está seguro de que desea eliminar este archivo?", "Confirmar eliminación", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
+                {
+                    File.Delete(selectedFile.FilePath);
+                    LoadExistingFiles();
+                    MessageBox.Show("Archivo eliminado exitosamente.", "Información", MessageBoxButton.OK, MessageBoxImage.Information);
+                }
+            }
+            else
+            {
+                MessageBox.Show("Por favor, seleccione un archivo para eliminar.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+
+        private void UpdateButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (TemplatesDataGrid.SelectedItem is TemplateFile selectedFile)
+            {
+                OpenFileDialog openFileDialog = new OpenFileDialog
+                {
+                    Filter = "Excel Files|*.xls;*.xlsx|PDF Files|*.pdf"
+                };
+                if (openFileDialog.ShowDialog() == true)
+                {
+                    string filePath = openFileDialog.FileName;
+                    string fileName = Path.GetFileName(filePath);
+                    string destinationPath = Path.Combine(templatesDirectory, fileName);
+                    File.Copy(filePath, destinationPath, true);
+                    LoadExistingFiles();
+                    MessageBox.Show("Archivo actualizado exitosamente.", "Información", MessageBoxButton.OK, MessageBoxImage.Information);
+                }
+            }
+            else
+            {
+                MessageBox.Show("Por favor, seleccione un archivo para actualizar.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
     }

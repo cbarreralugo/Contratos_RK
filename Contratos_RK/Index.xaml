@@ -67,8 +67,12 @@
                         <RadioButton x:Name="rdHome" IsChecked="True" Content="Home" Style="{DynamicResource MenuRadioButtonStyle}" Tag="{DynamicResource home}" Click="rdHome_Click"/>
                         <RadioButton x:Name="rdSounds" Content="Catalogos" Style="{DynamicResource MenuRadioButtonStyle}" Tag="{DynamicResource dashboard}" Margin="0 5 0 5" Click="rdSounds_Click"/>
                         <RadioButton x:Name="rdNotes" Content="Configuraciones" Style="{DynamicResource MenuRadioButtonStyle}" Tag="{DynamicResource settings}" Click="rdNotes_Click"/>
+                        <Separator Margin="10 50 10 0"/>
+                        <RadioButton x:Name="rdreinicio" Content="Reiniciar sistema" Style="{DynamicResource MenuRadioButtonStyle}" 
+                                     VerticalAlignment="Bottom"
+                                     Tag="{DynamicResource information}" Click="rdReinicio_Click"/>
                     </StackPanel>
-
+                    
                     <StackPanel Grid.Row="3" VerticalAlignment="Bottom" Orientation="Horizontal" Width="200" Margin="0 0 0 20">
                         <Ellipse Width="40" Height="40" Margin="10 0 0 0">
                             <Ellipse.Fill>

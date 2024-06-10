@@ -3,6 +3,7 @@ using Contratos_RK.Vista;
 using RK_Negocio.Modelo;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -92,6 +93,12 @@ namespace Contratos_RK
             Login login = new Login();
             login.Show();
             this.Close();
+        }
+
+        private void rdReinicio_Click(object sender, RoutedEventArgs e)
+        {
+            Process.Start(Application.ResourceAssembly.Location);
+            Application.Current.Shutdown();
         }
     }
 }

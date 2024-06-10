@@ -47,15 +47,17 @@
             <TabItem Header="Plantilla Draft">
                 <Grid>
                     <Button Content="Browse" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Click="BrowseButton_Click"/>
-                    <ListBox Name="FileListBox" HorizontalAlignment="Left" Height="50" Margin="10,50,0,0" VerticalAlignment="Top" Width="auto"/>
-                    <Button Content="Upload" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Margin="90,0,0,0" Click="UploadButton_Click"/>
-                    <DataGrid Name="TemplatesDataGrid" AutoGenerateColumns="False" Height="200" Margin="10,110,10,0" VerticalAlignment="Top">
+                    <ListBox Name="FileListBox" HorizontalAlignment="Left" Height="100" Margin="10,50,0,0" VerticalAlignment="Top" Width="360"/>
+                    <Button Content="Upload" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Margin="90,10,0,0" Click="UploadButton_Click"/>
+                    <DataGrid Name="TemplatesDataGrid" AutoGenerateColumns="False" Height="200" Margin="10,160,10,0" VerticalAlignment="Top">
                         <DataGrid.Columns>
                             <DataGridTextColumn Header="File Name" Binding="{Binding FileName}" IsReadOnly="True"/>
                             <DataGridTextColumn Header="Path" Binding="{Binding FilePath}" IsReadOnly="True"/>
                         </DataGrid.Columns>
                     </DataGrid>
-                    <Button Content="Open" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Margin="10,320,0,0" Click="OpenButton_Click"/>
+                    <Button Content="Open" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Margin="10,370,0,0" Click="OpenButton_Click"/>
+                    <Button Content="Delete" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Margin="90,370,0,0" Click="DeleteButton_Click"/>
+                    <Button Content="Update" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Margin="170,370,0,0" Click="UpdateButton_Click"/>
                 </Grid>
             </TabItem>
             <TabItem Header="Sistema">
