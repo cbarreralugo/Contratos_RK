@@ -27,6 +27,22 @@ namespace Contratos_RK.Utilidades
             }
         }
 
+        public string FormatearCodigo(string input)
+        {
+            var cifras = input.Split(',');
+
+            var cifrasAjustadas = cifras.Select(cifra =>
+            {
+                if (cifra.Length > 8)
+                {
+                    cifra = cifra.Substring(cifra.Length - 8);
+                }
+                return "MX" + cifra;
+            });
+
+            return string.Join(",", cifrasAjustadas);
+        }
+
         // Método para obtener los valores de la segunda columna y almacenarlos en un modelo
         public Configuraciones_Modelo ObtenerValoresSegundaColumnaEnModelo(DataGrid grid)
         {

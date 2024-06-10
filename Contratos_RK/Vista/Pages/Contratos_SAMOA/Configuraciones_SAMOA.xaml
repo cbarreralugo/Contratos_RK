@@ -5,187 +5,85 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:Contratos_RK.Vista.Pages.Contratos_SAMOA"
       xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes" 
-      
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
       Title="ConfiguracionesRK">
 
     <Border CornerRadius="5" Background="{DynamicResource SecundaryBackgroundColor}">
-
         <TabControl>
-            <TabItem Header="Configuraciones de Email">
+            <TabItem Header="Plantilla Email">
                 <Grid>
-                    <Grid.ColumnDefinitions> 
+                    <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
-                    
+
                     <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
- 
-                            <StackPanel Orientation="Horizontal" 
-                                    Margin="0 10 0 0" VerticalAlignment="Center" Width="auto">
-                                <Label Content="De/Origen:" Style="{DynamicResource MaterialDesignLabel}"
-                                   VerticalAlignment="Center"
-                                   Width="70"/>
-
-                                <TextBox x:Name="txt_origen"
-                                    Height="55"
-                                    Width="580"
-                                    HorizontalAlignment="Stretch"
-                                    VerticalAlignment="Center" 
-                                    AcceptsReturn="True"
-                                         IsEnabled="False"
-                                    Style="{StaticResource MaterialDesignOutlinedTextBox}"
-                                    TextWrapping="Wrap"
-                                      />
-
-                            </StackPanel>
-                            <StackPanel Orientation="Horizontal" 
-                                    Margin="0 10 0 0" VerticalAlignment="Center" Width="auto">
-                            <Label Content="Para:" Style="{DynamicResource MaterialDesignLabel}"
-                                   VerticalAlignment="Center"
-                                   Width="50"/>
-
-                            <TextBox x:Name="txt_para"
-                                    Height="55"
-                                    Width="800"
-                                    HorizontalAlignment="Stretch"
-                                    VerticalAlignment="Center" 
-                                    AcceptsReturn="True"
-                                    Style="{StaticResource MaterialDesignOutlinedTextBox}"
-                                     ToolTip="Si vas a gregar más de 1, no olvides separar por comas"
-                                    TextWrapping="Wrap"
-                                      />
-
+                        <StackPanel Orientation="Horizontal" Margin="0 10 0 0" VerticalAlignment="Center" Width="auto">
+                            <Label Content="De/Origen:" Style="{DynamicResource MaterialDesignLabel}" VerticalAlignment="Center" Width="70"/>
+                            <TextBox x:Name="txt_origen" Height="55" Width="580" HorizontalAlignment="Stretch" VerticalAlignment="Center" AcceptsReturn="True" IsEnabled="False" Style="{StaticResource MaterialDesignOutlinedTextBox}" TextWrapping="Wrap"/>
                         </StackPanel>
-                        <StackPanel Orientation="Horizontal" 
-                                    Margin="0 10 0 0" VerticalAlignment="Center" Width="auto">
-                            <Label Content="CC:" Width="50" Style="{DynamicResource MaterialDesignLabel}"
-                                    VerticalAlignment="Center"/>
-
-                            <TextBox x:Name="txt_cc"
-                                      Height="55"
-                                      Width="800"
-                                      HorizontalAlignment="Stretch"
-                                      VerticalAlignment="Center" 
-                                      AcceptsReturn="True"
-                                      Style="{StaticResource MaterialDesignOutlinedTextBox}"
-                                     ToolTip="Si vas a gregar más de 1, no olvides separar por comas"
-                                      TextWrapping="Wrap"  />
+                        <StackPanel Orientation="Horizontal" Margin="0 10 0 0" VerticalAlignment="Center" Width="auto">
+                            <Label Content="Para:" Style="{DynamicResource MaterialDesignLabel}" VerticalAlignment="Center" Width="50"/>
+                            <TextBox x:Name="txt_para" Height="55" Width="800" HorizontalAlignment="Stretch" VerticalAlignment="Center" AcceptsReturn="True" Style="{StaticResource MaterialDesignOutlinedTextBox}" ToolTip="Si vas a agregar más de 1, no olvides separar por comas" TextWrapping="Wrap"/>
                         </StackPanel>
-                        <StackPanel Orientation="Horizontal" 
-                                     Margin="0 10 0 0" VerticalAlignment="Center" Width="auto">
-                                <Label Content="Asunto:" Width="50" Style="{DynamicResource MaterialDesignLabel}"
-                                     VerticalAlignment="Center"/>
-
-                                <TextBox x:Name="txt_asunto"
-                                       Height="55"
-                                       Width="800"
-                                       HorizontalAlignment="Stretch"
-                                       VerticalAlignment="Center" 
-                                       AcceptsReturn="True"
-                                       Style="{StaticResource MaterialDesignOutlinedTextBox}"
-                                       TextWrapping="Wrap" />
-
-                            </StackPanel>
-                            <StackPanel Orientation="Horizontal" 
-                                    Margin="0 10 0 0" VerticalAlignment="Center" Width="auto">
-                                <Label Content="Cuerpo:" Width="50" Style="{DynamicResource MaterialDesignLabel}"
-                                    VerticalAlignment="Top" Margin="0 10 0 0"/>
-
-                                <TextBox x:Name="txt_body"
-                                      Height="150"
-                                      Width="800"
-                                      HorizontalAlignment="Stretch"
-                                      VerticalAlignment="Center" 
-                                      AcceptsReturn="True"
-                                      Style="{StaticResource MaterialDesignOutlinedTextBox}"
-                                      TextWrapping="Wrap"
-                                      VerticalScrollBarVisibility="Auto" />
-                            </StackPanel>
-                        <StackPanel Orientation="Horizontal" 
-                                    Margin="0 10 0 0" 
-                                    VerticalAlignment="Top" Width="auto">
-                             
-                            <Button x:Name="btn_Guardar"  
-                                    Click="btn_Guardar_Click"
-                                    Content="Guardad Plantilla"/>
+                        <StackPanel Orientation="Horizontal" Margin="0 10 0 0" VerticalAlignment="Center" Width="auto">
+                            <Label Content="CC:" Width="50" Style="{DynamicResource MaterialDesignLabel}" VerticalAlignment="Center"/>
+                            <TextBox x:Name="txt_cc" Height="55" Width="800" HorizontalAlignment="Stretch" VerticalAlignment="Center" AcceptsReturn="True" Style="{StaticResource MaterialDesignOutlinedTextBox}" ToolTip="Si vas a agregar más de 1, no olvides separar por comas" TextWrapping="Wrap"/>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal" Margin="0 10 0 0" VerticalAlignment="Center" Width="auto">
+                            <Label Content="Asunto:" Width="50" Style="{DynamicResource MaterialDesignLabel}" VerticalAlignment="Center"/>
+                            <TextBox x:Name="txt_asunto" Height="55" Width="800" HorizontalAlignment="Stretch" VerticalAlignment="Center" AcceptsReturn="True" Style="{StaticResource MaterialDesignOutlinedTextBox}" TextWrapping="Wrap"/>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal" Margin="0 10 0 0" VerticalAlignment="Center" Width="auto">
+                            <Label Content="Cuerpo:" Width="50" Style="{DynamicResource MaterialDesignLabel}" VerticalAlignment="Top" Margin="0 10 0 0"/>
+                            <TextBox x:Name="txt_body" Height="150" Width="800" HorizontalAlignment="Stretch" VerticalAlignment="Center" AcceptsReturn="True" Style="{StaticResource MaterialDesignOutlinedTextBox}" TextWrapping="Wrap" VerticalScrollBarVisibility="Auto"/>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal" Margin="0 10 0 0" VerticalAlignment="Top" Width="auto">
+                            <Button x:Name="btn_Guardar" Click="btn_Guardar_Click" Content="Guardar Plantilla"/>
                         </StackPanel>
                     </StackPanel>
                 </Grid>
             </TabItem>
-            <TabItem Header="Configuraciones del sistema">
+            <TabItem Header="Plantilla Draft">
                 <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="200"/>
-                        <ColumnDefinition Width="*"/>
-                    </Grid.ColumnDefinitions>
-
-                    <DataGrid x:Name="dg_Configuraciones"
-          Grid.Column="0" CellEditEnding="dg_Configuraciones_CellEditEnding"
-                              Grid.ColumnSpan="2"
-          CanUserAddRows="False"
-          ItemsSource="{Binding Items2}"
-          SelectionMode="Extended"
-          SelectionUnit="Cell" />
-
+                    <Button Content="Browse" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Click="BrowseButton_Click"/>
+                    <ListBox Name="FileListBox" HorizontalAlignment="Left" Height="50" Margin="10,50,0,0" VerticalAlignment="Top" Width="auto"/>
+                    <Button Content="Upload" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Margin="90,0,0,0" Click="UploadButton_Click"/>
+                    <DataGrid Name="TemplatesDataGrid" AutoGenerateColumns="False" Height="200" Margin="10,110,10,0" VerticalAlignment="Top">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="File Name" Binding="{Binding FileName}" IsReadOnly="True"/>
+                            <DataGridTextColumn Header="Path" Binding="{Binding FilePath}" IsReadOnly="True"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                    <Button Content="Open" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Margin="10,320,0,0" Click="OpenButton_Click"/>
                 </Grid>
             </TabItem>
-            <TabItem Header="Usuarios registrados en el sistema">
+            <TabItem Header="Sistema">
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="200"/>
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
-                    <ScrollViewer Grid.Column="0"
-                             Width="200"
-                             Height="500">
+                    <DataGrid x:Name="dg_Configuraciones" Grid.Column="0" CellEditEnding="dg_Configuraciones_CellEditEnding" Grid.ColumnSpan="2" CanUserAddRows="False" SelectionMode="Extended" SelectionUnit="Cell"/>
+                </Grid>
+            </TabItem>
+            <TabItem Header="Usuarios">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="200"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <ScrollViewer Grid.Column="0" Width="200" Height="500">
                         <StackPanel Height="auto" Width="auto" Orientation="Vertical">
-                            <TextBox  x:Name="txt_NombreUsuario"
-                           MaxWidth="200"
-                           Margin="0 10 0 0"
-                           VerticalAlignment="Top"
-                           HorizontalAlignment="Stretch"
-                           materialDesign:HintAssist.Hint="Nombre de usuario"
-                           AcceptsReturn="True"
-                           IsEnabled="{Binding Path=IsChecked, ElementName=MaterialDesignFilledTextBoxEnabledComboBox}"
-                           Style="{StaticResource MaterialDesignFilledTextBox}"
-                           TextWrapping="Wrap" />
-                            <TextBox  x:Name="txt_Email"
-                            MaxWidth="200"
-                            Margin="0 10 0 0"
-                            VerticalAlignment="Top"
-                            HorizontalAlignment="Stretch"
-                            materialDesign:HintAssist.Hint="Email"
-                            AcceptsReturn="True"
-                            IsEnabled="{Binding Path=IsChecked, ElementName=MaterialDesignFilledTextBoxEnabledComboBox}"
-                            Style="{StaticResource MaterialDesignFilledTextBox}"
-                            TextWrapping="Wrap" />
-
-                            <Button x:Name="btn_Agregar"
-                                    Click="btn_Agregar_Click"
-                             Width="auto"
-                             Margin="0 10 0 0"
-                             Content="Agregar"
-                             IsEnabled="{Binding DataContext.ControlsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}"
-                             Style="{StaticResource MaterialDesignRaisedDarkButton}"  />
-                            <Button x:Name="btn_Eliminar"
-                                    Click="btn_Eliminar_Click"
-                            Width="auto"
-                             Margin="0 10 0 0"
-                            Content="Eliminar"
-                            IsEnabled="{Binding DataContext.ControlsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}"
-                            Style="{StaticResource MaterialDesignFlatAccentBgButton}"  />
+                            <TextBox x:Name="txt_NombreUsuario" MaxWidth="200" Margin="0 10 0 0" VerticalAlignment="Top" HorizontalAlignment="Stretch" materialDesign:HintAssist.Hint="Nombre de usuario" AcceptsReturn="True" Style="{StaticResource MaterialDesignFilledTextBox}" TextWrapping="Wrap"/>
+                            <TextBox x:Name="txt_Email" MaxWidth="200" Margin="0 10 0 0" VerticalAlignment="Top" HorizontalAlignment="Stretch" materialDesign:HintAssist.Hint="Email" AcceptsReturn="True" Style="{StaticResource MaterialDesignFilledTextBox}" TextWrapping="Wrap"/>
+                            <Button x:Name="btn_Agregar" Click="btn_Agregar_Click" Width="auto" Margin="0 10 0 0" Content="Agregar" Style="{StaticResource MaterialDesignRaisedDarkButton}"/>
+                            <Button x:Name="btn_Eliminar" Click="btn_Eliminar_Click" Width="auto" Margin="0 10 0 0" Content="Eliminar" Style="{StaticResource MaterialDesignFlatAccentBgButton}"/>
                         </StackPanel>
                     </ScrollViewer>
-                    <DataGrid x:Name="dg_Usuarios"
-          Grid.Column="1" 
-          CanUserAddRows="False"
-          ItemsSource="{Binding Items2}"
-          SelectionMode="Extended"
-          SelectionUnit="Cell" />
+                    <DataGrid x:Name="dg_Usuarios" Grid.Column="1" CanUserAddRows="False" SelectionMode="Extended" SelectionUnit="Cell"/>
                 </Grid>
             </TabItem>
         </TabControl>
-
     </Border>
 </Page>

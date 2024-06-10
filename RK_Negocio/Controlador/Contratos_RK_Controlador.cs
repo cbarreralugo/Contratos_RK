@@ -119,13 +119,13 @@ namespace RK_Negocio.Controlador
             {
                 string[,] parametros =
                 {
-                    {"@numeroContrato", numeroContrato.ToString()}, 
+                    {"@numeroContrato", numeroContrato.ToString()},
                 };
                 data = ConnectorLibrary.App.GetCurrentConnector().Tabla(Utilidades.SP_RK.sp_buscar_contrato, parametros);
             }
             catch (Exception ex)
             {
-                 Console.WriteLine(ex.Message);
+                Console.WriteLine(ex.Message);
             }
             return data;
         }
@@ -135,7 +135,7 @@ namespace RK_Negocio.Controlador
             DataTable data = new DataTable();
             try
             {
-                 
+
                 data = ConnectorLibrary.App.GetCurrentConnector().Tabla(Utilidades.SP_RK.sp_ctr_obtener_portafolio_activo_samoa);
             }
             catch (Exception ex)
@@ -200,7 +200,7 @@ namespace RK_Negocio.Controlador
             }
             return data;
         }
-        public DataTable ObtenerUsuarios(string id_sistema="")
+        public DataTable ObtenerUsuarios(string id_sistema = "")
         {
             DataTable data = new DataTable();
             try
@@ -209,7 +209,7 @@ namespace RK_Negocio.Controlador
                {
                     {"@id_sistema", id_sistema==""?SesionUsuario_Modelo.id_sistema:id_sistema},
                 };
-                data = ConnectorLibrary.App.GetCurrentConnector().Tabla(Utilidades.SP_RK.sp_ctr_obtener_usuarios,parametros);
+                data = ConnectorLibrary.App.GetCurrentConnector().Tabla(Utilidades.SP_RK.sp_ctr_obtener_usuarios, parametros);
             }
             catch (Exception ex)
             {
@@ -241,8 +241,8 @@ namespace RK_Negocio.Controlador
                 string[,] parametros =
             {
                 {"@id_tipo_custodio", idTipoCustodio.ToString()} };
-                data = ConnectorLibrary.App.GetCurrentConnector().Tabla(Utilidades.SP_RK.sp_ctr_custodio_detalle,parametros); 
-                detalleCustodio = $"[{data.Rows[0]["codigo_custodio"]}] {data.Rows[0]["nombre_custodio"]}";
+                data = ConnectorLibrary.App.GetCurrentConnector().Tabla(Utilidades.SP_RK.sp_ctr_custodio_detalle, parametros);
+                detalleCustodio = $"[{data.Rows[0]["codigo"]}] {data.Rows[0]["valor"]}";
             }
             catch (Exception ex)
             {

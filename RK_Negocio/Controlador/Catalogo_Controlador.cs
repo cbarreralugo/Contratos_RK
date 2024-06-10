@@ -5,7 +5,7 @@ using System.Data;
 using System.Linq;
 using System.Runtime.ConstrainedExecution;
 using System.Text;
-using System.Threading.Tasks; 
+using System.Threading.Tasks;
 
 namespace RK_Negocio.Controlador
 {
@@ -28,7 +28,7 @@ namespace RK_Negocio.Controlador
         {
             DataTable dt = new DataTable();
             string[,] parametros =
-            { 
+            {
                 {"@accion",modelo.accion.ToString() },   //'C' para crear, 'M' para modificar, 'T' para obtener todos, 'O' para obtener uno
                 {"@id_contratos",modelo.id_contrato.ToString() },
                 {"@id_tipo_cliente",modelo.id_tipo_cliente.ToString() },
@@ -39,13 +39,13 @@ namespace RK_Negocio.Controlador
             };
             try
             {
-               dt= ConnectorLibrary.App.GetCurrentConnector().Tabla(Utilidades.SP_Catalogos.sp_ctr_crear_obtener_modificar_contratos, parametros);
+                dt = ConnectorLibrary.App.GetCurrentConnector().Tabla(Utilidades.SP_Catalogos.sp_ctr_crear_obtener_modificar_contratos, parametros);
                 return dt;
             }
             catch (Exception e) { throw e; }
             finally { dt = new DataTable(); }
 
         }
-       
+
     }
 }

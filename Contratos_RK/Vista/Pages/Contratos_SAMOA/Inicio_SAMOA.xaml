@@ -131,6 +131,7 @@
                                 HorizontalAlignment="Stretch"
                                 materialDesign:HintAssist.Hint="Número de contrato"
                                 AcceptsReturn="True"
+                                TextChanged="txt_numContrato_TextChanged"
                                 IsEnabled="{Binding Path=IsChecked, ElementName=MaterialDesignFilledTextBoxEnabledComboBox}"
                                 Style="{StaticResource MaterialDesignFilledTextBox}"
                                 TextWrapping="Wrap" />
@@ -274,8 +275,8 @@
                                     materialDesign:HintAssist.Hint="Selecciona un tipo de Draf"
                                             Style="{StaticResource MaterialDesignOutlinedComboBox}"
                                             Width="auto" Margin="0" >
-                                    <ComboBoxItem Content="Crear"/>
-                                    <ComboBoxItem Content="Modificar"/>
+                                    <ComboBoxItem Content="Create"/>
+                                    <ComboBoxItem Content="Modification"/>
                                 </ComboBox>
                             </StackPanel>
                             <StackPanel Orientation="Vertical" Grid.Column="0" Grid.Row="1">

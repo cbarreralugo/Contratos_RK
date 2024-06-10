@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace RK_Negocio.Controlador
 {
-    public  class PlantillaEmail_Controlador
+    public class PlantillaEmail_Controlador
     {
         private static PlantillaEmail_Controlador _instancia;
 

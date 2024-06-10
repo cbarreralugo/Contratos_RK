@@ -29,7 +29,7 @@ namespace RK_Datos.Datos
                         email = SesionUsuario_Modelo.email = (dataTable.Rows[0]["email"].ToString()),
                         id_sistema = SesionUsuario_Modelo.id_sistema = (dataTable.Rows[0]["id_sistema"].ToString()),
                         id_tipoUser = SesionUsuario_Modelo.id_tipoUser = int.Parse(dataTable.Rows[0]["id_tipoUser"].ToString()),
-                        estatus = SesionUsuario_Modelo.estatus = (dataTable.Rows[0]["estatus"].ToString()), 
+                        estatus = SesionUsuario_Modelo.estatus = (dataTable.Rows[0]["estatus"].ToString()),
                     };
                     reply = true;
                 }

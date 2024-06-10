@@ -33,6 +33,6 @@ namespace RK_Datos.Datos
             finally { dataTable = new DataTable(); }
             return dataTable;
         }
-        
+
     }
 }

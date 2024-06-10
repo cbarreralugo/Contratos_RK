@@ -22,6 +22,7 @@ namespace Contratos_RK
     /// </summary>
     public partial class Index : Window
     {
+
         public Index()
         {
             InitializeComponent();

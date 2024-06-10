@@ -25,8 +25,8 @@ namespace Contratos_RK.Utilidades
             modelo.accion = "O";
             modelo = datos.PlantillaEmail(modelo);
             // Dividir los correos y agregarlos a las listas de Email_Modelo
-            Email_Modelo.Para = modelo.Para.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries).ToList();
-            Email_Modelo.Copia = modelo.Copia.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries).ToList();
+            Email_Modelo.Para = modelo.Para.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries).Select(email => email.Trim()).ToList();
+            Email_Modelo.Copia = modelo.Copia.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries).Select(email => email.Trim()).ToList();
 
             subject = modelo.Asunto;
             try
@@ -89,17 +89,20 @@ namespace Contratos_RK.Utilidades
                 AlternateView avHtml = AlternateView.CreateAlternateViewFromString(htmlBody, null, MediaTypeNames.Text.Html);
 
                 // Adjuntar la imagen
-                string nameImage = Email_Modelo.Image == "true" ? "image-1.png" : "image-2.png";
-                string imagePath = AppDomain.CurrentDomain.BaseDirectory + "data/" + nameImage;
-                LinkedResource inline = new LinkedResource(imagePath, MediaTypeNames.Image.Jpeg)
-                {
-                    ContentId = "InlineImage"
-                };
-                avHtml.LinkedResources.Add(inline);
+                //bool imageHtml = bool.Parse(Email_Modelo.Image);
+                //if (imageHtml)
+                //{
+                //    string nameImage = Email_Modelo.Image == "true" ? "image-1.png" : "image-2.png";
+                //    string imagePath = AppDomain.CurrentDomain.BaseDirectory + "data/" + nameImage;
+                //    LinkedResource inline = new LinkedResource(imagePath, MediaTypeNames.Image.Jpeg)
+                //    {
+                //        ContentId = "InlineImage"
+                //    };
+                //    avHtml.LinkedResources.Add(inline);
 
+                //}
                 // Añadir la vista alternativa al correo
                 mail.AlternateViews.Add(avHtml);
-
                 // Adjuntar archivos si la bandera es verdadera
                 if (attachFile)
                 {
@@ -358,55 +361,7 @@ table, td { color: #000000; } @media (max-width: 480px) { #u_content_text_1 .v-t
     </tr>
   </tbody>
 </table>
-
-<table style=""font-family:'Raleway',sans-serif;"" role=""presentation"" cellpadding=""0"" cellspacing=""0"" width=""100%"" border=""0"">
-  <tbody>
-    <tr>
-      <td style=""overflow-wrap:break-word;word-break:break-word;padding:10px 20px;font-family:'Raleway',sans-serif;"" align=""left"">
-        
-  <div class=""v-text-align v-line-height"" style=""font-size: 14px; color: #333333; line-height: 180%; text-align: left; word-wrap: break-word;"">
-    <p style=""font-size: 14px; line-height: 180%;""><span style=""font-family: Raleway, sans-serif; font-size: 14px; line-height: 25.2px;"">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip .</span></p>
-  </div>
-
-      </td>
-    </tr>
-  </tbody>
-</table>
-
-<table style=""font-family:'Raleway',sans-serif;"" role=""presentation"" cellpadding=""0"" cellspacing=""0"" width=""100%"" border=""0"">
-  <tbody>
-    <tr>
-      <td style=""overflow-wrap:break-word;word-break:break-word;padding:10px 20px 15px;font-family:'Raleway',sans-serif;"" align=""left"">
-        
-  <div class=""v-text-align v-line-height"" style=""font-size: 14px; color: #333333; line-height: 180%; text-align: left; word-wrap: break-word;"">
-    <p style=""font-size: 14px; line-height: 180%;""><span style=""font-family: Raleway, sans-serif; font-size: 14px; line-height: 25.2px;"">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.</span></p>
-  </div>
-
-      </td>
-    </tr>
-  </tbody>
-</table>
-
-<table style=""font-family:'Raleway',sans-serif;"" role=""presentation"" cellpadding=""0"" cellspacing=""0"" width=""100%"" border=""0"">
-  <tbody>
-    <tr>
-      <td style=""overflow-wrap:break-word;word-break:break-word;padding:10px;font-family:'Raleway',sans-serif;"" align=""left"">
-        
-<table width=""100%"" cellpadding=""0"" cellspacing=""0"" border=""0"">
-  <tr>
-    <td class=""v-text-align"" style=""padding-right: 0px;padding-left: 0px;"" align=""center"">
-      
-      <img align=""center"" border=""0"" src=""cid:InlineImage"" alt=""Image"" title=""Image"" style=""outline: none;text-decoration: none;-ms-interpolation-mode: bicubic;clear: both;display: inline-block !important;border: none;height: auto;float: none;width: 100%;max-width: 400px;"" width=""400""/>
-      
-    </td>
-  </tr>
-</table>
-
-      </td>
-    </tr>
-  </tbody>
-</table>
-
+ 
 <table style=""font-family:'Raleway',sans-serif;"" role=""presentation"" cellpadding=""0"" cellspacing=""0"" width=""100%"" border=""0"">
   <tbody>
     <tr>
@@ -618,7 +573,7 @@ table, td { color: #000000; } @media (max-width: 480px) { #u_content_text_1 .v-t
 
 
 
-                return htmlTemplate.Replace("{nombre_user}", "").Replace("{body}", body).Replace("txt_Fecha", "03/06/2024").Replace("txt_userName", SesionUsuario_Modelo.nombre);
+                return htmlTemplate.Replace("{nombre_user}", "").Replace("{body}", body).Replace("txt_Fecha", DateTime.Now.Date.ToString()).Replace("txt_userName", SesionUsuario_Modelo.nombre);
             }
             catch (FormatException ex)
             {

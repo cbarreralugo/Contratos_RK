@@ -257,16 +257,14 @@ namespace Contratos_RK.Vista.Pages.Contratos_SAMOA
                     Directory.CreateDirectory(outputDirectoryPath);
                 }
 
-                // Ruta del archivo Excel plantilla
-                string templatePath = @"" + Configuracion_Modelo.Plantilla_Draft; // Ruta a la plantilla
-                                                                                  // Ruta del archivo Excel de salida
-                string outputPath = Path.Combine(outputDirectoryPath, @"Plantilla_APP.xlsx"); // Ruta para guardar el archivo de salida
-
                 // Obtener los valores dinámicos de los componentes
                 string tipoDraf = ((ComboBoxItem)Combo_tipoDraf.SelectedItem).Content.ToString();
+                string action = tipoDraf == "Create" ? "CREATION new " : "MODIFICATION";
                 string userName = SesionUsuario_Modelo.nombre;
                 string fecha = txt_FechaContrato.SelectedDate?.ToString("dd/MM/yyyy") ?? string.Empty;
-                string portafolio = "SAMBPI2"; // Este valor debes definir de dónde lo obtendrás
+                string numContato = txt_numContrato.Text.Trim();
+                string portafolio = Utilidades.funciones.I.FormatearCodigo(numContato);
+                string denominacion = txt_Denominacion.Text;
 
                 // Obtener detalles del custodio desde la base de datos
                 int idTipoCustodio = ((CB)list_custodio.SelectedItem)?.id ?? 0;
@@ -276,26 +274,36 @@ namespace Contratos_RK.Vista.Pages.Contratos_SAMOA
                 int idTipoBo = ((CB)combo_TipoBOCode.SelectedItem)?.id ?? 0;
                 string boDetalle = Contratos_RK_Controlador.Instancia.ObtenerDetalleBo(idTipoBo);
 
-                string portGroupSeleccionado = string.Join(";", list_tipoPortGroup.SelectedItems.Cast<CB>().Select(i => "PORT_GRP|" + i.valor));
-                string gpSeleccionado = string.Join(";", list_tipoPortGroup.SelectedItems.Cast<CB>().Select(i => "GP|" + i.valor));
+                //string portGroupSeleccionado = string.Join(";", list_tipoPortGroup.SelectedItems.Cast<CB>().Select(i => i.valor));
+                var portGroupSeleccionado = string.Join(";", list_tipoPortGroup.SelectedItems.Cast<CB>().Select(item => item.valor).ToArray());
+                //string gpSeleccionado = string.Join(";", list_tipoPortGroup.SelectedItems.Cast<CB>().Select(i => i.valor));
+                string gpSeleccionado = string.Join(";", list_custodio.SelectedItems.Cast<CB>().Select(item => item.valor).ToArray());
                 string externalAddress = txt_nombreContratoExterno.Text;
+                string cash_amount = "0";
+
+                // Ruta del archivo Excel plantilla
+                string templatePath = @"" + Configuracion_Modelo.Plantilla_Draft; // Ruta a la plantilla
+                                                                                  // Ruta del archivo Excel de salida
+                string outputPath = Path.Combine(outputDirectoryPath, @"Draft_Portafolio_Templete_" + portafolio + @".xlsx"); // Ruta para guardar el archivo de salida
+
 
                 // Diccionario de valores a reemplazar
                 Dictionary<string, string> model = new Dictionary<string, string>
-        {
-            { "txt_Create_Update", tipoDraf + "Create" },
-            { "txt_tipoCreacion_Modificacion", tipoDraf },
-            { "txt_userName", userName },
-            { "txt_Fecha", fecha },
-            { "txt_Portafolio", portafolio },
-            { "txt_type_custodio", custodioDetalle },
-            { "txt_type_cuenta", custodioDetalle + "|MXN" },
-            { "txt_gp", gpSeleccionado },
-            { "txt_grupo", portGroupSeleccionado },
-            { "txt_monto", portGroupSeleccionado },
-            { "txt_BO_COVAF", boDetalle },
-            { "txt_BO_PFOLIOS", boDetalle }
-        };
+                        {
+                            { "txt_Action", "Portafolio "+ action },
+                            { "txt_Request", tipoDraf + " new portfolio in Aladdin" },
+                            { "txt_userName", userName },
+                            { "txt_Fecha", fecha },
+                            { "txt_Portafolio", portafolio },
+                            { "txt_Denominacion",denominacion },
+                            { "txt_type_custodio", custodioDetalle },
+                            { "txt_NumContrato", numContato },
+                            { "txt_typeCahs", numContato + "|MXN" },
+                            { "txt_gp", gpSeleccionado },
+                            { "txt_grupo", portGroupSeleccionado },
+                            { "txt_monto", cash_amount },
+                            { "txt_BO_COVAF", boDetalle }
+                        };
 
                 excelHelper.FillExcelTemplate(templatePath, outputPath, model);
 
@@ -399,7 +407,7 @@ namespace Contratos_RK.Vista.Pages.Contratos_SAMOA
                 }
             }
         }
-         
+
         private void combo_TipoFondo_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (combo_TipoFondo.SelectedItem is CB selectedTipoFondo)
@@ -429,7 +437,7 @@ namespace Contratos_RK.Vista.Pages.Contratos_SAMOA
 
         private void combo_GoldenParent_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-           
+
         }
 
         private void list_custodio_Loaded(object sender, RoutedEventArgs e)
@@ -437,6 +445,21 @@ namespace Contratos_RK.Vista.Pages.Contratos_SAMOA
             if (list_custodio.Items.Count > 0)
             {
                 list_custodio.SelectedIndex = 0;
+            }
+        }
+
+        private void txt_numContrato_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (combo_TipoContrato.SelectedItem is CB selectedTipoContrato)
+            {
+                if (selectedTipoContrato.id != 3)
+                {
+                    txt_nombreContratoExterno.Text = this.txt_numContrato.Text;
+                }
+                else
+                {
+                    txt_nombreContratoExternoFondos.Text = this.txt_numContrato.Text;
+                }
             }
         }
     }

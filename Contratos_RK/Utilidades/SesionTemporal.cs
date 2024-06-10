@@ -14,21 +14,21 @@ namespace Contratos_RK.Utilidades
     public class SesionTemporal
     {
         private static string folderPath;
-        private static string filePath; 
+        private static string filePath;
         private static bool isInitialized = false;
 
-        
+
         public static void obtenerConfiguración()
         {
             Configuraciones_Datos configuracion = new Configuraciones_Datos();
             Configuraciones_Modelo modelo = new Configuraciones_Modelo();
-            modelo.id_sistema = SesionUsuario_Modelo.id_sistema == string.Empty ? 1.ToString():SesionUsuario_Modelo.id_sistema;
+            modelo.id_sistema = SesionUsuario_Modelo.id_sistema == string.Empty ? 1.ToString() : SesionUsuario_Modelo.id_sistema;
             configuracion.Obtener_Configuracion(modelo);
         }
         public static void Initialize()
         {
             try
-            { 
+            {
                 string ruta = Configuracion_Modelo.SesionTemporal.ToString();
                 folderPath = Path.Combine("", ruta);
                 filePath = Path.Combine(folderPath, "sesion.txt");
@@ -146,8 +146,8 @@ namespace Contratos_RK.Utilidades
             }
         }
 
-       
-        
+
+
         public static void RestartApplication()
         {
             string applicationPath = System.Reflection.Assembly.GetExecutingAssembly().Location;

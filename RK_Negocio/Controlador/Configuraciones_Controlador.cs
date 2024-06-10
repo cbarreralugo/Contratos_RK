@@ -23,13 +23,13 @@ namespace RK_Negocio.Controlador
                 return instance;
             }
         }
-         
+
         public DataTable ObtenerConfiguraciones(Configuraciones_Modelo modelo)
         {
-            DataTable dt = new DataTable(); 
+            DataTable dt = new DataTable();
             string[,] parametros =
             {
-                {"@accion",modelo.accion.ToString() }, 
+                {"@accion",modelo.accion.ToString() },
                 {"@id_sistema",modelo.id_sistema==null?"":modelo.id_sistema },
                 {"@Plantilla_Draf",modelo.Plantilla_Draft==null?"":modelo.Plantilla_Draft},//ruta_plantilla
                 {"@Draft_Creado",modelo.Draft_Creado == null ? "" : modelo.Draft_Creado},//ruta creado
@@ -40,7 +40,7 @@ namespace RK_Negocio.Controlador
             try
             {
                 dt = ConnectorLibrary.App.GetCurrentConnector().Tabla(Utilidades.SP_Configuraciones.sp_ctr_obtener_modificar_configuraciones_sistema, parametros);
-                
+
                 return dt;
             }
             catch (Exception e) { throw e; }

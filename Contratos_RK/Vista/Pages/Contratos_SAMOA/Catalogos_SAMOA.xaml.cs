@@ -30,11 +30,11 @@ namespace Contratos_RK.Vista.Pages.Contratos_SAMOA
 
         private void CargarDatos()
         {
-            
+
             dg_Contratos.Items.Clear();
             dg_Contratos.ItemsSource = Contratos_RK_Controlador.Instancia.ObtenerPortafolioActivo().DefaultView;
             dg_BO.Items.Clear();
-            dg_BO.ItemsSource = Contratos_RK_Controlador.Instancia.ObtenerBO().DefaultView; 
+            dg_BO.ItemsSource = Contratos_RK_Controlador.Instancia.ObtenerBO().DefaultView;
             dg_Golden.Items.Clear();
             dg_Golden.ItemsSource = Contratos_RK_Controlador.Instancia.ObtenerGOlden().DefaultView;
 
