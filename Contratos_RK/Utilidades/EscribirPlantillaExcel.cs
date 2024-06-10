@@ -37,7 +37,7 @@ namespace Contratos_RK.Utilidades
                             string contrato = contratosArray[i].Trim();
 
                             // Duplicar la hoja de la plantilla y renombrarla
-                            string sheetName = $"Contrato_{contrato}";
+                            string sheetName = $"Contrato_{Utilidades.funciones.I.FormatearCodigo(contrato)}";
                             if (package.Workbook.Worksheets[sheetName] != null)
                             {
                                 package.Workbook.Worksheets.Delete(sheetName);
@@ -59,9 +59,18 @@ namespace Contratos_RK.Utilidades
                                             string cellText = cell.Value.ToString();
                                             if (cellText.Contains(entry.Key))
                                             {
-                                                cell.Value = cellText.Replace( entry.Key, valueToReplace);
-                                                // Mensaje de depuración para confirmar reemplazo
-                                                //Console.WriteLine($"Reemplazado '{entry.Key}' con '{valueToReplace}' en la celda {cell.Address}");
+                                                if (entry.Key == "txt_Portafolio" || entry.Key == "txt_typeCahs")
+                                                {
+                                                    string[] splitValues = entry.Value.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
+                                                    if (i < splitValues.Length)
+                                                    {
+                                                        cell.Value = cellText.Replace(entry.Key, splitValues[i].Trim());
+                                                    }
+                                                }
+                                                else
+                                                {
+                                                    cell.Value = cellText.Replace(entry.Key, valueToReplace);
+                                                }
                                             }
                                         }
                                     }

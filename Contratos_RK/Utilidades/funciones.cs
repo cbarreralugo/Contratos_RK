@@ -26,7 +26,18 @@ namespace Contratos_RK.Utilidades
                 return instance;
             }
         }
+        public string FormatearCodigoCahs(string input)
+        {
+            var cifras = input.Split(',');
 
+            var cifrasAjustadas = cifras.Select(cifra =>
+            {
+                 
+                return cifra+"|MXN";
+            });
+
+            return string.Join(",", cifrasAjustadas);
+        }
         public string FormatearCodigo(string input)
         {
             var cifras = input.Split(',');

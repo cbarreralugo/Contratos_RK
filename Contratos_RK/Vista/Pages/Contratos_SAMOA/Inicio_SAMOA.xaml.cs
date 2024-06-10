@@ -298,7 +298,7 @@ namespace Contratos_RK.Vista.Pages.Contratos_SAMOA
                             { "txt_Denominacion",denominacion },
                             { "txt_type_custodio", custodioDetalle },
                             { "txt_NumContrato", numContato },
-                            { "txt_typeCahs", numContato + "|MXN" },
+                            { "txt_typeCahs", Utilidades.funciones.I.FormatearCodigoCahs(numContato)},
                             { "txt_gp", gpSeleccionado },
                             { "txt_grupo", portGroupSeleccionado },
                             { "txt_monto", cash_amount },
@@ -308,7 +308,7 @@ namespace Contratos_RK.Vista.Pages.Contratos_SAMOA
                 excelHelper.FillExcelTemplate(templatePath, outputPath, model);
 
                 // Actualizar el cuerpo del modelo de email
-                Email_Modelo.Body = model;
+                //Email_Modelo.Body = model;
 
                 // Enviar el correo
                 sendEmail(outputPath);
