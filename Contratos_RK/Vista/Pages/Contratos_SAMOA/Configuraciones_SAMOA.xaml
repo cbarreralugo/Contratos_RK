@@ -46,9 +46,9 @@
             </TabItem>
             <TabItem Header="Plantilla Draft">
                 <Grid>
-                    <Button Content="Browse" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Click="BrowseButton_Click"/>
+                    <Button Content="Browse" HorizontalAlignment="Left" VerticalAlignment="Top"   Click="BrowseButton_Click" Margin="10"/>
                     <ListBox Name="FileListBox" HorizontalAlignment="Left" Height="100" Margin="10,50,0,0" VerticalAlignment="Top" Width="360"/>
-                    <Button Content="Upload" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Margin="90,10,0,0" Click="UploadButton_Click"/>
+                    <Button Content="Cargar" HorizontalAlignment="Left" VerticalAlignment="Top"   Margin="90,10,0,0" Click="UploadButton_Click"/>
                     <DataGrid Name="TemplatesDataGrid" AutoGenerateColumns="False" Height="200" Margin="10,160,10,0" VerticalAlignment="Top">
                         <DataGrid.Columns>
                             <DataGridTextColumn Header="File Name" Binding="{Binding FileName}" IsReadOnly="True"/>

@@ -54,7 +54,7 @@ namespace RK_Negocio.Controlador
             {
                 {"@accion", modelo.accion ?? "U"},  // 'U' para actualización
                 {"@id_sistema", SesionUsuario_Modelo.id_sistema},
-                {"@Plantilla_Draf", modelo.Plantilla_Draft ?? ""}, // ruta_plantilla
+                {"@Plantilla_Draf", modelo.Plantilla_Draft}, // ruta_plantilla
                 {"@Draft_Creado", modelo.Draft_Creado ?? ""}, // ruta creado
                 {"@Email_To", modelo.Email_To ?? ""},
                 {"@Password_To", modelo.Password_To ?? ""},

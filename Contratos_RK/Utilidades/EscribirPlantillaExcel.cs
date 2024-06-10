@@ -1,8 +1,6 @@
 ﻿using OfficeOpenXml;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.IO;
-using System.Linq;
 using System;
 using System.Windows;
 
@@ -14,20 +12,20 @@ namespace Contratos_RK.Utilidades
         {
             try
             {
-
-                //// Configurar la licencia de EPPlus
+                // Configurar la licencia de EPPlus
                 ExcelPackage.LicenseContext = OfficeOpenXml.LicenseContext.NonCommercial;
 
                 if (!File.Exists(templatePath))
                 {
-                    throw new FileNotFoundException($"La plantilla no se encontro en la ruta {templatePath}");
+                    throw new FileNotFoundException($"La plantilla no se encontró en la ruta {templatePath}");
                 }
-                //Cargar el archivo de la plantilla
+
+                // Cargar el archivo de la plantilla
                 FileInfo plantillaFile = new FileInfo(templatePath);
 
                 using (ExcelPackage package = new ExcelPackage(plantillaFile))
                 {
-                    //Obtener la hoja de trabajo de la plantilla
+                    // Obtener la hoja de trabajo de la plantilla
                     ExcelWorksheet templateSheet = package.Workbook.Worksheets[0];
 
                     if (model.TryGetValue("txt_NumContrato", out string contratos))
@@ -38,29 +36,43 @@ namespace Contratos_RK.Utilidades
                         {
                             string contrato = contratosArray[i].Trim();
 
+                            // Duplicar la hoja de la plantilla y renombrarla
+                            string sheetName = $"Contrato_{contrato}";
+                            if (package.Workbook.Worksheets[sheetName] != null)
+                            {
+                                package.Workbook.Worksheets.Delete(sheetName);
+                            }
 
-                            //Duplicar la hoja  de la plantilla y renovarla
-                            ExcelWorksheet newSheet = package.Workbook.Worksheets.Copy(templateSheet.Name, $"Contrato_{contratos}");
+                            ExcelWorksheet newSheet = package.Workbook.Worksheets.Copy(templateSheet.Name, sheetName);
 
-                            //Renovar los valores en la nueva hoja
+                            // Reemplazar los valores en la nueva hoja
                             foreach (var entry in model)
                             {
                                 string valueToReplace = entry.Key == "txt_NumContrato" ? contrato : entry.Value;
-                                foreach (var cell in newSheet.Cells["A1:Z100"])
+                                for (int row = 1; row <= newSheet.Dimension.End.Row; row++)
                                 {
-                                    if (cell.Value != null && cell.Value.ToString().Contains("{" + entry.Key + "}"))
+                                    for (int col = 1; col <= newSheet.Dimension.End.Column; col++)
                                     {
-                                        cell.Value = cell.Value.ToString().Replace("{" + entry.Key + "}", valueToReplace);
+                                        var cell = newSheet.Cells[row, col];
+                                        if (cell.Value != null)
+                                        {
+                                            string cellText = cell.Value.ToString();
+                                            if (cellText.Contains(entry.Key))
+                                            {
+                                                cell.Value = cellText.Replace( entry.Key, valueToReplace);
+                                                // Mensaje de depuración para confirmar reemplazo
+                                                //Console.WriteLine($"Reemplazado '{entry.Key}' con '{valueToReplace}' en la celda {cell.Address}");
+                                            }
+                                        }
                                     }
                                 }
                             }
-
                         }
-                        //Eliminar la primera hoja
-                        //package.Workbook.Worksheets.Delete(templateSheet);
+                        // Eliminar la primera hoja si es necesario
+                        package.Workbook.Worksheets.Delete(templateSheet);
                     }
 
-                    //Guardar 
+                    // Guardar el archivo
                     FileInfo outputFile = new FileInfo(outputPath);
                     package.SaveAs(outputFile);
                 }
@@ -69,37 +81,6 @@ namespace Contratos_RK.Utilidades
             {
                 MessageBox.Show("Error al llenar la plantilla de excel.\n" + ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
-
-            //// Configurar la licencia de EPPlus
-            //ExcelPackage.LicenseContext = OfficeOpenXml.LicenseContext.NonCommercial;
-
-            //// Leer el archivo Excel
-            //FileInfo templateFile = new FileInfo(templatePath);
-            //FileInfo outputFile = new FileInfo(outputPath);
-
-            //using (ExcelPackage package = new ExcelPackage(templateFile))
-            //{
-            //    ExcelWorkbook workbook = package.Workbook;
-            //    ExcelWorksheet worksheet = workbook.Worksheets[0];
-
-            //    // Reemplazar los marcadores de posición con los valores del modelo
-            //    foreach (var cell in worksheet.Cells)
-            //    {
-            //        if (cell.Value != null && cell.Value is string cellValue)
-            //        {
-            //            foreach (var item in model)
-            //            {
-            //                if (cellValue.Contains(item.Key))
-            //                {
-            //                    cell.Value = cellValue.Replace(item.Key, item.Value);
-            //                }
-            //            }
-            //        }
-            //    }
-
-            //    // Guardar el archivo Excel actualizado
-            //    package.SaveAs(outputFile);
-            //}
         }
     }
 }

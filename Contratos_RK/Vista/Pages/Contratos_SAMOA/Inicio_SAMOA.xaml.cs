@@ -304,7 +304,7 @@ namespace Contratos_RK.Vista.Pages.Contratos_SAMOA
                             { "txt_monto", cash_amount },
                             { "txt_BO_COVAF", boDetalle }
                         };
-
+                
                 excelHelper.FillExcelTemplate(templatePath, outputPath, model);
 
                 // Actualizar el cuerpo del modelo de email
