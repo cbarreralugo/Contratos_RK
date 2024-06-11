@@ -18,6 +18,7 @@ namespace Contratos_RK.Vista.Pages.Contratos_SAMOA
         {
             InitializeComponent();
             CargarDatos();
+
         }
 
         private void CargarDatos()
@@ -126,29 +127,34 @@ namespace Contratos_RK.Vista.Pages.Contratos_SAMOA
                     return;
                 }
 
-                var contrato = new Contratos_RK_Modelo
+                // Dividir los contratos por comas y eliminar espacios en blanco
+                string[] contratosArray = txt_numContrato.Text.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
+
+                foreach (string contrato in contratosArray)
                 {
-                    BoCode = combo_TipoBOCode.Text,
-                    Contrato = txt_numContrato.Text,
-                    Denominacion = txt_Denominacion.Text,
-                    Moneda = "MXN", // Asumiendo que siempre es MXN, puedes ajustar esto según sea necesario
-                    NumeroContrato = txt_numContrato.Text,
-                    DenominacionContrato = txt_Denominacion.Text,
-                    FechaContrato = DateTime.Now.ToString("ddMMyyyy"), // Fecha actual
-                    TipoPort = string.Join("|", list_tipoPortGroup.SelectedItems.Cast<CB>().Select(i => i.valor)),
-                    TipoCustodio = list_custodio.SelectedItem.ToString(),
-                    TipoFondo = combo_TipoFondo.Text,
-                    TipoBoCode = combo_TipoBOCode.Text,
-                    ContratoExterno = txt_nombreContratoExternoFondos.Text,
-                    TipoContrato = combo_TipoContrato.Text,
-                    TipoGoldenParent = combo_GoldenParent.Text,
-                    ExternalAddress = txt_nombreContratoExterno.Text,
-                };
+                    var contratoModelo = new Contratos_RK_Modelo
+                    {
+                        BoCode = combo_TipoBOCode.Text,
+                        Contrato = contrato.Trim(), // Usar el contrato individual
+                        Denominacion = txt_Denominacion.Text,
+                        Moneda = "MXN", // Asumiendo que siempre es MXN, puedes ajustar esto según sea necesario
+                        NumeroContrato = Utilidades.funciones.I.FormatearCodigo(contrato.Trim()), // Usar el contrato individual
+                        DenominacionContrato = txt_Denominacion.Text,
+                        FechaContrato = DateTime.Now.ToString("ddMMyyyy"), // Fecha actual
+                        TipoPort = string.Join(";", list_tipoPortGroup.SelectedItems.Cast<CB>().Select(i => i.valor)),
+                        TipoCustodio = (list_custodio.SelectedItem as CB)?.valor, // Acceder a la propiedad valor
+                        TipoFondo = combo_TipoFondo.Text,
+                        TipoBoCode = combo_TipoBOCode.Text,
+                        ContratoExterno = txt_nombreContratoExternoFondos.Text,
+                        TipoContrato = combo_TipoContrato.Text,
+                        TipoGoldenParent = combo_GoldenParent.Text,
+                        ExternalAddress = txt_nombreContratoExterno.Text,
+                    };
 
-                Contratos_RK_Controlador.Instancia.GuardarContrato(contrato);
+                    Contratos_RK_Controlador.Instancia.GuardarContrato(contratoModelo);
+                }
 
-                MessageBox.Show("Registro almacenado correctamente.", "Información", MessageBoxButton.OK, MessageBoxImage.Information);
-                LimpiarFormulario();
+                MessageBox.Show("Registros almacenados correctamente.", "Información", MessageBoxButton.OK, MessageBoxImage.Information);
             }
             catch (Exception ex)
             {
@@ -169,6 +175,7 @@ namespace Contratos_RK.Vista.Pages.Contratos_SAMOA
             txt_nombreContratoExterno.Clear();
             list_tipoPortGroup.SelectedIndex = -1;
             list_custodio.SelectedIndex = -1;
+            lb_insidencias.Content = "Insidencias: 0";
         }
 
         private void btn_EnviarCorreo_Click(object sender, RoutedEventArgs e)
@@ -218,21 +225,21 @@ namespace Contratos_RK.Vista.Pages.Contratos_SAMOA
                     MessageBox.Show("No se encontró ese número de contrato. Favor de validar.", "Advertencia", MessageBoxButton.OK, MessageBoxImage.Exclamation);
                     return;
                 }
-
+                lb_insidencias.Content = "Insidencias: " + result.Rows.Count;
                 DataRow row = result.Rows[0];
 
                 txt_Denominacion.Text = row["Denominacion"].ToString();
-                combo_TipoContrato.Text = row["TipoContrato"].ToString();
-                txt_FechaContrato.Text = DateTime.ParseExact(row["FechaContrato"].ToString(), "yyyyMMdd", null).ToString("dd/MM/yyyy");
-                txt_nombreContratoExterno.Text = row["ExternalAddress"].ToString();
+                combo_TipoContrato.Text = row["tipo_contrato"].ToString();
+                txt_FechaContrato.Text = DateTime.ParseExact(row["fecha_contrato"].ToString(), "yyyyMMdd", null).ToString("dd/MM/yyyy");
+                txt_nombreContratoExterno.Text = row["external_address"].ToString();
                 txt_nombreContratoExternoFondos.Text = row["ContratoExterno"].ToString();
 
                 // Verificar subclasificaciones
-                if (string.IsNullOrEmpty(row["TipoPort"].ToString()) ||
-                    string.IsNullOrEmpty(row["TipoFondo"].ToString()) ||
-                    string.IsNullOrEmpty(row["TipoGoldenParent"].ToString()) ||
-                    string.IsNullOrEmpty(row["TipoBoCode"].ToString()) ||
-                    string.IsNullOrEmpty(row["TipoCustodio"].ToString()))
+                if (string.IsNullOrEmpty(row["tipo_port"].ToString()) ||
+                    string.IsNullOrEmpty(row["tipo_fondo"].ToString()) ||
+                    string.IsNullOrEmpty(row["tipo_golden_parent"].ToString()) ||
+                    string.IsNullOrEmpty(row["tipo_bo_code"].ToString()) ||
+                    string.IsNullOrEmpty(row["tipo_custodio"].ToString()))
                 {
                     MessageBox.Show("El contrato no tiene todas las subclasificaciones, favor de actualizar.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
@@ -304,7 +311,7 @@ namespace Contratos_RK.Vista.Pages.Contratos_SAMOA
                             { "txt_monto", cash_amount },
                             { "txt_BO_COVAF", boDetalle }
                         };
-                
+
                 excelHelper.FillExcelTemplate(templatePath, outputPath, model);
 
                 // Actualizar el cuerpo del modelo de email
@@ -312,57 +319,14 @@ namespace Contratos_RK.Vista.Pages.Contratos_SAMOA
 
                 // Enviar el correo
                 sendEmail(outputPath);
+                btn_Guardar_Click(null,null);
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message.ToString());
             }
         }
-        //private void btn_EnviarArchivoDraf_Click(object sender, RoutedEventArgs e)
-        //{
-        //    EscribirPlantillaExcel excelHelper = new EscribirPlantillaExcel();
-        //    try
-        //    {
-        //        // Crear directorio de salida si no existe
-        //        string outputDirectoryPath = @"" + Configuracion_Modelo.Draft_Creado;
-        //        if (!Directory.Exists(outputDirectoryPath))
-        //        {
-        //            Directory.CreateDirectory(outputDirectoryPath);
-        //        }
-
-        //        // Ruta del archivo Excel plantilla
-        //        string templatePath = @"" + Configuracion_Modelo.Plantilla_Draft; // Ruta a la plantilla
-        //                                                                          // Ruta del archivo Excel de salida
-        //        string outputPath = Path.Combine(outputDirectoryPath, @"Plantilla_APP.xlsx"); // Ruta para guardar el archivo de salida
-
-        //        // Diccionario de valores a reemplazar
-        //        Dictionary<string, string> model = new Dictionary<string, string>
-        //    {
-        //        { "txt_Create_Update", "Create" },
-        //        { "txt_tipoCreacion_Modificacion", "Create" },
-        //        { "txt_userName", "Carlos Alberto" },
-        //        { "txt_Fecha", "02/06/2024" },
-        //        { "txt_Portafolio", "SAMBPI2" },
-        //        { "txt_type_custodio", "[BCOS3MX] Banco S3 Mexico S.A. Institucion de Banca Multiple|1039327|" },
-        //        { "txt_type_cuenta", "[BCOS3MX] Banco S3 Mexico S.A. Institucion de Banca Multiple|1039327|MXN" },
-        //        { "txt_gp", "GP|INST-AMRS|;GP|MX-AGG|;GP|MX-EQUITY|;GP|MX-ALCAP|" },
-        //        { "txt_grupo", "PORT_GRP|MX-FI-FNDS|;PORT_GRP|SAM_B1_6|;PORT_GRP|AQS_AUM_PG|;PORT_GRP|TST-AMRS|" },
-        //        { "txt_monto", "PORT_GRP|MX-FI-FNDS|;PORT_GRP|SAM_B1_6|;PORT_GRP|AQS_AUM_PG|;PORT_GRP|TST-AMRS|" },
-        //        { "txt_BO_COVAF", "COVAF/MXSAMBPI2/Fondo SAM Renta Variable 29, S.A. de C.V. Fondo de Inversion de Renta Variable/MXN/SAMBPI2/Fondo SAM Renta Variable 29, S.A. de C.V. Fondo de Inversion de Renta Variable/SAMBPI2" },
-        //        { "txt_BO_PFOLIOS", "PFOLIOS/MXSAMBPI2/Fondo SAM Renta Variable 29, S.A. de C.V. Fondo de Inversion de Renta Variable/MXN/SAMBPI2/Fondo SAM Renta Variable 29, S.A. de C.V. Fondo de Inversion de Renta Variable/SAMBPI2" }
-        //    }; excelHelper.FillExcelTemplate(templatePath, outputPath, model);
-
-        //        // Actualizar el cuerpo del modelo de email
-        //        Email_Modelo.Body = model;
-
-        //        // Enviar el correo
-        //        sendEmail(outputPath);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        MessageBox.Show(ex.Message.ToString());
-        //    }
-        //}
+      
 
         private void sendEmail(string outputPath)
         {

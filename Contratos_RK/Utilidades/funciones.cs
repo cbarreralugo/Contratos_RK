@@ -32,8 +32,8 @@ namespace Contratos_RK.Utilidades
 
             var cifrasAjustadas = cifras.Select(cifra =>
             {
-                 
-                return cifra+"|MXN";
+
+                return cifra + "|MXN";
             });
 
             return string.Join(",", cifrasAjustadas);
@@ -44,15 +44,30 @@ namespace Contratos_RK.Utilidades
 
             var cifrasAjustadas = cifras.Select(cifra =>
             {
-                if (cifra.Length > 8)
+                cifra = cifra.Trim(); // Eliminar espacios en blanco alrededor de la cifra
+                if (cifra.StartsWith("MX"))
                 {
-                    cifra = cifra.Substring(cifra.Length - 8);
+                    // Si la cifra ya empieza con "MX", solo asegurarse de que tenga una longitud máxima de 10 caracteres
+                    if (cifra.Length > 10)
+                    {
+                        cifra = "MX" + cifra.Substring(2).Substring(cifra.Length - 10 + 2);
+                    }
                 }
-                return "MX" + cifra;
+                else
+                {
+                    // Si no empieza con "MX", ajustarla a un máximo de 8 caracteres y agregar "MX"
+                    if (cifra.Length > 8)
+                    {
+                        cifra = cifra.Substring(cifra.Length - 8);
+                    }
+                    cifra = "MX" + cifra;
+                }
+                return cifra;
             });
 
             return string.Join(",", cifrasAjustadas);
         }
+
 
         // Método para obtener los valores de la segunda columna y almacenarlos en un modelo
         public Configuraciones_Modelo ObtenerValoresSegundaColumnaEnModelo(DataGrid grid)

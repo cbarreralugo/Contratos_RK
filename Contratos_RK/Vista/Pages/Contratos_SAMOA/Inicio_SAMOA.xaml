@@ -141,7 +141,7 @@
                                 Grid.Row="0"
                                 Margin=" 10 0 0 0"
                                 Orientation="Vertical">
-                        <Label Content="Insidencias: 0"/>
+                        <Label x:Name="lb_insidencias" Content="Insidencias: 0"/>
                         <Button
                             x:Name="btn_Buscar"
                             Click="btn_Buscar_Click"
@@ -271,7 +271,7 @@
                             </Grid.RowDefinitions>
 
                             <StackPanel Orientation="Vertical" Grid.Column="0" Grid.Row="0" >
-                                <ComboBox x:Name="Combo_tipoDraf"
+                                <ComboBox x:Name="Combo_tipoDraf" SelectedIndex="0"
                                     materialDesign:HintAssist.Hint="Selecciona un tipo de Draf"
                                             Style="{StaticResource MaterialDesignOutlinedComboBox}"
                                             Width="auto" Margin="0" >

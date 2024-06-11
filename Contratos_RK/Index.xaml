@@ -4,27 +4,28 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Contratos_RK"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         mc:Ignorable="d"  
         Title="Index" Height="720" Width="1200"
         WindowStartupLocation="CenterScreen" WindowStyle="None"
-         AllowsTransparency="True"
+        AllowsTransparency="True"
         ResizeMode="CanResize" WindowState="Normal"
-         TextElement.Foreground="{DynamicResource MaterialDesignBody}"
-     TextElement.FontWeight="Regular"
-     TextElement.FontSize="13"
-     TextOptions.TextFormattingMode="Ideal"
-     TextOptions.TextRenderingMode="Auto"
-     Background="{DynamicResource MaterialDesignPaper}"
-     FontFamily="{DynamicResource MaterialDesignFont}"
-        >
+        TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+        TextElement.FontWeight="Regular"
+        TextElement.FontSize="13"
+        TextOptions.TextFormattingMode="Ideal"
+        TextOptions.TextRenderingMode="Auto"
+        Background="{DynamicResource MaterialDesignPaper}"
+        FontFamily="{DynamicResource MaterialDesignFont}">
     <Border CornerRadius="8" Background="{DynamicResource PrimaryBackgroundColor}"
             BorderBrush="{DynamicResource PrimaryGrayColor}"
-            BorderThickness="2"   MouseLeftButtonDown="Window_MouseLeftButtonDown">
-        <Grid >
+            BorderThickness="2" MouseLeftButtonDown="Window_MouseLeftButtonDown">
+        <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
+
             <!-- Start: GridColum Left-->
             <Border CornerRadius="8 0 0 8" Background="{DynamicResource SecundaryBackgroundColor}">
                 <Grid x:Name="gridMenu" Width="50">
@@ -72,7 +73,7 @@
                                      VerticalAlignment="Bottom"
                                      Tag="{DynamicResource information}" Click="rdReinicio_Click"/>
                     </StackPanel>
-                    
+
                     <StackPanel Grid.Row="3" VerticalAlignment="Bottom" Orientation="Horizontal" Width="200" Margin="0 0 0 20">
                         <Ellipse Width="40" Height="40" Margin="10 0 0 0">
                             <Ellipse.Fill>
@@ -89,7 +90,7 @@
             </Border>
             <!-- End: GridColum Left-->
 
-            <!-- Start: GridColumn Rigth -->
+            <!-- Start: GridColumn Right -->
             <Grid Grid.Column="1">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="35"/>
@@ -121,7 +122,18 @@
                     </Frame>
                 </Border>
             </Grid>
-            <!-- Start: GridColumn Rigth -->
+            <!-- End: GridColumn Right -->
+
+            <!-- Snackbar positioned to be visible above all content -->
+            <materialDesign:Snackbar x:Name="MainSnackbar" 
+                                     MessageQueue="{Binding SnackbarMessageQueue}" 
+                                     Grid.ColumnSpan="2" 
+                                     VerticalAlignment="Top"
+                                     HorizontalAlignment="Right"
+                                     Background="{DynamicResource PrimaryGrayColor}"
+                                     Foreground="{DynamicResource SecundaryBackgroundColor}" 
+                                     Margin="30 50" 
+                                     />
         </Grid>
     </Border>
 </Window>

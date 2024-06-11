@@ -1,20 +1,11 @@
 ﻿using Contratos_RK.Utilidades;
 using Contratos_RK.Vista;
+using MaterialDesignThemes.Wpf;
 using RK_Negocio.Modelo;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
+using System; 
+using System.Diagnostics; 
+using System.Windows; 
+using System.Windows.Input; 
 
 namespace Contratos_RK
 {
@@ -23,18 +14,22 @@ namespace Contratos_RK
     /// </summary>
     public partial class Index : Window
     {
-
+        public static SnackbarMessageQueue MessageQueue { get; private set; }
         public Index()
         {
             InitializeComponent();
+            MessageQueue = new SnackbarMessageQueue(TimeSpan.FromSeconds(3));
+            MainSnackbar.MessageQueue = MessageQueue;
             CargarSesion();
         }
 
         private void CargarSesion()
         {
             txtEmail.Content = SesionUsuario_Modelo.email;
-            txtTipoUsuario.Content = SesionUsuario_Modelo.id_tipoUser == 1 ? "Administrador" : "Operador";
-            rdHome_Click(null, null);
+            txtTipoUsuario.Content = SesionUsuario_Modelo.id_tipoUser == 1 ? "Administrador" : "Operador"; 
+            rdHome_Click(null, null); 
+            MessageQueue.Enqueue("Bienvenido " + SesionUsuario_Modelo.nombre);
+            MessageQueue.Enqueue("Ingresaste como:  " + (SesionUsuario_Modelo.id_tipoUser == 1 ? "Administrador" : "Operador"));
         }
 
         private void Window_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
