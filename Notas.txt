@@ -1,0 +1,316 @@
+using Contratos_RK.Utilidades.data.plantillaEmail;
+using Microsoft.Office.Interop.Excel;
+using RK_Datos.Datos;
+using RK_Negocio.Modelo;
+using System;
+using System.Collections.Generic;  
+using System.Linq;
+using System.Net;
+using System.Net.Mail;
+using System.Net.Mime;
+using System.Net.Security;
+using System.Security.Cryptography.X509Certificates;
+using System.Windows.Forms;
+
+namespace Contratos_RK.Utilidades
+{
+    public class Email
+    {
+
+        public void SendEmail(string subject, string body, bool attachFile = false, string outputPath = "")
+        {
+            PlantillaEmail_Datos datos = new PlantillaEmail_Datos();
+            PlantillaEmail_Modelo modelo = new PlantillaEmail_Modelo();
+            modelo.accion = "O";
+            modelo = datos.PlantillaEmail(modelo);
+            // Dividir los correos y agregarlos a las listas de Email_Modelo
+            Email_Modelo.Para = modelo.Para.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries).Select(email => email.Trim()).ToList();
+            Email_Modelo.Copia = modelo.Copia.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries).Select(email => email.Trim()).ToList();
+            Email_Modelo.Asunto = modelo.Asunto;
+            Email_Modelo.Contenido = modelo.body;
+
+            subject = modelo.Asunto;
+            try
+            {
+                // Verificación de dirección de correo y asunto
+                if (Email_Modelo.Para == null || Email_Modelo.Para.Count == 0 || string.IsNullOrEmpty(subject) || string.IsNullOrEmpty(body))
+                {
+                    MessageBox.Show("Los campos 'Para', 'Asunto' y 'Cuerpo' no pueden estar vacíos.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+
+                // Validar dirección de correo electrónico
+                foreach (var to in Email_Modelo.Para)
+                {
+                    if (!IsValidEmail(to))
+                    {
+                        MessageBox.Show($"Dirección de correo electrónico no válida: {to}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return;
+                    }
+                }
+
+                // Configuración del cliente SMTP
+                SmtpClient smtpClient = new SmtpClient("180.176.74.200")
+                {
+                    Port = 25,
+                    UseDefaultCredentials = false,
+                    EnableSsl = false,
+                    Credentials = new NetworkCredential(Email_Modelo.Email_To, Email_Modelo.Password_To)
+                };
+
+                // Validación del certificado del servidor
+                ServicePointManager.ServerCertificateValidationCallback = delegate (object s, X509Certificate certificate, X509Chain chain, SslPolicyErrors sslPolicyErrors)
+                {
+                    return true;
+                };
+
+                // Creación del mensaje de correo
+                MailMessage mail = new MailMessage
+                {
+                    From = new MailAddress(Email_Modelo.Email_To),
+                    Subject = subject,
+                    IsBodyHtml = true,
+                    Priority = MailPriority.Normal
+                };
+
+                foreach (var to in Email_Modelo.Para)
+                {
+                    mail.To.Add(to);
+                }
+
+                foreach (var cc in Email_Modelo.Copia)
+                {
+                    mail.CC.Add(cc);
+                }
+
+                // Crear el cuerpo del correo usando la plantilla HTML
+                string htmlBody = GetHtmlBody(body, Email_Modelo.Body);
+
+                // Crear la vista alternativa HTML
+                AlternateView avHtml = AlternateView.CreateAlternateViewFromString(htmlBody, null, MediaTypeNames.Text.Html);
+
+               
+                // Añadir la vista alternativa al correo
+                mail.AlternateViews.Add(avHtml);
+                // Adjuntar archivos si la bandera es verdadera
+                if (attachFile)
+                {
+                    if (string.IsNullOrEmpty(outputPath))
+                    {
+                        OpenFileDialog openFileDialog = new OpenFileDialog
+                        {
+                            Filter = "Excel Files|*.xls;*.xlsx",
+                            Title = "Select an Excel File"
+                        };
+
+                        if (openFileDialog.ShowDialog() == DialogResult.OK)
+                        {
+                            string filePath = openFileDialog.FileName;
+                            Attachment attachment = new Attachment(filePath);
+                            mail.Attachments.Add(attachment);
+                        }
+                    }
+                    else
+                    {
+                        Attachment attachment = new Attachment(outputPath);
+                        mail.Attachments.Add(attachment);
+                    }
+                }
+
+                // Envío del correo
+                //smtpClient.Send(mail);
+                MessageBox.Show("Correo enviado exitosamente", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            catch (FormatException ex)
+            {
+                MessageBox.Show($"Error de formato: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            catch (SmtpException ex)
+            {
+                MessageBox.Show($"Error de SMTP: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error al enviar correo: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private bool IsValidEmail(string email)
+        {
+            try
+            {
+                var addr = new MailAddress(email);
+                return addr.Address == email;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        private string GetHtmlBody(string body, Dictionary<string, string> model = null)
+        {
+            try
+            {
+                // Verificar el contenido del body antes de formatear
+                Console.WriteLine("Body content before formatting: " + body);
+
+                // Plantilla HTML para el cuerpo del correo
+                string htmlTemplate = @"
+                    <!DOCTYPE html>
+                    <html lang='es'>
+                    <head>
+                        <meta charset='UTF-8'>
+                        <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+                        <title>Email Template</title>
+                        <style type='text/css'>
+                            @media only screen and (min-width: 570px) {
+                                .u-row {
+                                    width: 550px !important;
+                                }
+                                .u-row .u-col {
+                                    vertical-align: top;
+                                }
+                                .u-row .u-col-50 {
+                                    width: 275px !important;
+                                }
+                                .u-row .u-col-100 {
+                                    width: 550px !important;
+                                }
+                            }
+
+                            @media (max-width: 570px) {
+                                .u-row-container {
+                                    max-width: 100% !important;
+                                    padding-left: 0px !important;
+                                    padding-right: 0px !important;
+                                }
+                                .u-row .u-col {
+                                    min-width: 320px !important;
+                                    max-width: 100% !important;
+                                    display: block !important;
+                                }
+                                .u-row {
+                                    width: 100% !important;
+                                }
+                                .u-col {
+                                    width: 100% !important;
+                                }
+                                .u-col > div {
+                                    margin: 0 auto;
+                                }
+                            }
+
+                            body {
+                                margin: 0;
+                                padding: 0;
+                                font-family: 'Raleway', sans-serif;
+                                color: #000000;
+                            }
+
+                            table, tr, td {
+                                vertical-align: top;
+                                border-collapse: collapse;
+                            }
+
+                            p {
+                                margin: 0;
+                            }
+
+                            * {
+                                line-height: inherit;
+                            }
+
+                            a[x-apple-data-detectors='true'] {
+                                color: inherit !important;
+                                text-decoration: none !important;
+                            }
+
+                            .u-header {
+                                text-align: left;
+                                padding: 20px;
+                                background-color: #ffffff;
+                            }
+
+                            .u-body {
+                                padding: 20px;
+                                background-color: #ffffff;
+                            }
+
+                            .u-footer {
+                                text-align: left;
+                                padding: 20px;
+                                background-color: #132f40;
+                                color: #ffffff;
+                            }
+
+                            .highlight {
+                                font-weight: bold;
+                                color: #2c3e50;
+                            }
+
+                            .info {
+                                background-color: #dff0d8;
+                                padding: 15px;
+                                text-align: center;
+                            }
+
+                            .footer-info {
+                                background-color: #132f40;
+                                color: #ffffff;
+                                padding: 15px;
+                                text-align: center;
+                            }
+                        </style>
+                    </head>
+                    <body>
+                        <div class='u-row-container' style='padding: 0px; background-color: transparent;'>
+                            <div class='u-row' style='margin: 0 auto; max-width: 550px; background-color: #ffffff;'>
+                                <div class='u-col u-col-100' style='display: table-cell; vertical-align: top;'>
+                                    <div class='u-header'>
+                                        <p style='font-family: ""Rubik"", sans-serif; font-size: 16px; color: #132f40;'>{txt_asunto}</p>
+                                    </div>
+                                    <div class='u-body'>
+                                        <p class='highlight' style='font-family: ""Raleway"", sans-serif; font-size: 14px; color: #333333;'>Generación de archivo correcta!!</p>
+                                        <p style='font-family: ""Raleway"", sans-serif; font-size: 14px; color: #333333;'>Procesado por {txt_userName}</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class='u-row' style='margin: 0 auto; max-width: 550px; background-color: #dff0d8;'>
+                                <div class='u-col u-col-100' style='display: table-cell; vertical-align: top;'>
+                                    <div class='info'>
+                                        <p style='font-family: ""Raleway"", sans-serif; font-size: 14px; color: #333333;'>{txt_cuerpo}</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class='u-row' style='margin: 0 auto; max-width: 550px; background-color: #132f40;'>
+                                <div class='u-col u-col-100' style='display: table-cell; vertical-align: top;'>
+                                    <div class='footer-info'>
+                                        <p style='font-family: ""Raleway"", sans-serif; font-size: 14px; color: #ffffff;'>SAM Asset Management, S.A de C.V.</p>
+                                        <p style='font-family: ""Raleway"", sans-serif; font-size: 14px; color: #ffffff;'>{txt_Fecha}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </body>
+                    </html>
+";
+
+                string nombreUsuario = SesionUsuario_Modelo.nombre;
+                string fechaActual = DateTime.Now.ToString("dd/MM/yyyy");
+
+                return htmlTemplate
+                    .Replace("{txt_asunto}", Email_Modelo.Asunto)
+                    .Replace("{txt_cuerpo}", Email_Modelo.Contenido)
+                    .Replace("{txt_Fecha}", fechaActual)
+                    .Replace("{txt_userName}", nombreUsuario);
+            }
+            catch (FormatException ex)
+            {
+                MessageBox.Show($"Error al formatear el cuerpo del correo: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                throw;
+            }
+        }
+
+    }
+}
